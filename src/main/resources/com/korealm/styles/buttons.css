@@ -1,0 +1,24 @@
+.button {
+    -fx-text-fill: #fff;
+}
+
+.numberButtonStyle {
+    -fx-background-color: #353A4E;
+}
+
+.functionButtonStyle {
+    -fx-background-color: #2C3145;
+}
+
+.numberButtonStyle:hover {
+    -fx-background-color: #3e445c;
+}
+
+.functionButtonStyle:hover {
+    -fx-background-color: #33384d;
+}
+
+.transparentButton {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}

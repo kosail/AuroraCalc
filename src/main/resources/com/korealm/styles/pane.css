@@ -1,0 +1,7 @@
+.vboxPane {
+    -fx-background-color: rgba(26, 31, 51, 1);
+}
+
+.mainTitleStyle {
+    -fx-text-fill: #fff;
+}
