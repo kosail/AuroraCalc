@@ -50,7 +50,7 @@ AuroraCalc/
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-username/AuroraCalc.git
+   git clone https://github.com/kosail/AuroraCalc.git
    cd AuroraCalc
    ```
 2. Open the project in **IntelliJ IDEA** (recommended) or another IDE with Kotlin support. Just keep in mind that **this project does not uses gradle or maven**. It was build with pure IntelliJ.
