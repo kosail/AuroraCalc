@@ -1,4 +1,5 @@
 .text-area {
+    -fx-text-fill: #f1f1f1;
     -fx-background-color: #1A1F33;
 }
 
@@ -10,7 +11,10 @@
     -fx-background-color: transparent;
 }
 
-
 .text-area .scroll-pane .content{
     -fx-background-color: transparent;
+}
+
+.lastOperationLabelStyles {
+    -fx-text-fill: #a1a1a1;
 }
