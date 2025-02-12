@@ -1,5 +1,6 @@
 package com.korealm
 
+import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
@@ -9,10 +10,15 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
+import net.objecthunter.exp4j.ExpressionBuilder
 
 // I had no idea on how to instanciate all these fields in separated files, as Scene Builder asks for one Controller class only.
-// Base on that, I decided to instanciate all the objects and initialize them here, and after that separate the logic of each part of the app into their respective file.
-// Even so... ugh, I'll be forced to make all vars public to be able to access them
+// Base on that, I decided to instanciate all the objects and initialize them here. After completing all, I'll try to separate the logic of each part of the app into their respective file.
+enum class lastChangeRequester {
+    USERMADE,
+    SYSTEM_MADE
+}
+
 class InitController {
     private lateinit var stage: Stage
     // #######################
@@ -69,6 +75,9 @@ class InitController {
     @FXML private lateinit var multiplyButton: Button
     @FXML private lateinit var divideButton: Button
 
+    // Miscelaneous for functionalities
+    private var lastOperation: lastChangeRequester = lastChangeRequester.SYSTEM_MADE
+
     @FXML fun initialize() {
         // #######################
         // ## ICONS SECTION ######
@@ -113,11 +122,180 @@ class InitController {
         menuButton.setOnAction { alertOfNightlyBuild(stage) }
         historyButton.setOnAction { alertOfNightlyBuild(stage) }
 
+        // ! TODO: Fix this to get the focus on open
+        inputField.requestFocus(); // Activate TextField at first when opening the app. If not, then the user will have to click on it.
+
+        zeroButton.setOnAction { zeroButtonPressed() }
+        oneButton.setOnAction { oneButtonPressed() }
+        twoButton.setOnAction { twoButtonPressed() }
+        threeButton.setOnAction { threeButtonPressed() }
+        fourButton.setOnAction { fourButtonPressed() }
+        fiveButton.setOnAction { fiveButtonPressed() }
+        sixButton.setOnAction { sixButtonPressed() }
+        sevenButton.setOnAction { sevenButtonPressed() }
+        eightButton.setOnAction { eightButtonPressed() }
+        nineButton.setOnAction { nineButtonPressed() }
+        periodButton.setOnAction { periodButtonPressed() }
+        plusMinusButton.setOnAction { plusButtonPressed() }
+        minusButton.setOnAction { minusButtonPressed() }
+        multiplyButton.setOnAction { multiplyButtonPressed() }
+        divideButton.setOnAction { divideButtonPressed() }
+        equalsButton.setOnAction { equalsButtonPressed() }
+        ceButton.setOnAction { ceButtonPressed() }
+        ceButton.setOnAction { cButtonPressed() }
+        eraseButton.setOnAction { eraseButtonPressed() }
     }
 
     fun setStage(stage: Stage) {
         this.stage = stage
     }
+
+    private fun zeroButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
+            inputField.clear()
+            lastOperation = lastChangeRequester.USERMADE
+        }
+
+        inputField.appendText("0")
+    }
+    private fun oneButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
+            inputField.clear()
+            lastOperation = lastChangeRequester.USERMADE
+        }
+
+        inputField.appendText("1")
+    }
+
+    private fun twoButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
+            inputField.clear()
+            lastOperation = lastChangeRequester.USERMADE
+        }
+
+        inputField.appendText("2")
+    }
+
+    private fun threeButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
+            inputField.clear()
+            lastOperation = lastChangeRequester.USERMADE
+        }
+
+        inputField.appendText("3")
+    }
+
+    private fun fourButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
+            inputField.clear()
+            lastOperation = lastChangeRequester.USERMADE
+        }
+
+        inputField.appendText("4")
+    }
+
+    private fun fiveButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
+            inputField.clear()
+            lastOperation = lastChangeRequester.USERMADE
+        }
+
+        inputField.appendText("5")
+    }
+
+    private fun sixButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
+            inputField.clear()
+            lastOperation = lastChangeRequester.USERMADE
+        }
+
+        inputField.appendText("6")
+    }
+
+    private fun sevenButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
+            inputField.clear()
+            lastOperation = lastChangeRequester.USERMADE
+        }
+
+        inputField.appendText("7")
+    }
+
+    private fun eightButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
+            inputField.clear()
+            lastOperation = lastChangeRequester.USERMADE
+        }
+
+        inputField.appendText("8")
+    }
+
+    private fun nineButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
+            inputField.clear()
+            lastOperation = lastChangeRequester.USERMADE
+        }
+
+        inputField.appendText("9")
+    }
+
+    private fun periodButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE || inputField.text.isEmpty()) {
+            inputField.clear()
+            lastOperation = lastChangeRequester.USERMADE
+            inputField.appendText("0.")
+            return;
+        }
+
+        inputField.appendText(".")
+    }
+
+    private fun plusButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) return
+        inputField.appendText("+")
+    }
+
+    private fun minusButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) return
+        inputField.appendText("-")
+    }
+
+    private fun multiplyButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) return
+        inputField.appendText("*")
+    }
+    private fun divideButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) return
+
+        inputField.appendText("/")
+    }
+
+    private fun equalsButtonPressed() {
+        val expression = inputField.text
+        if (expression.isBlank()) return
+
+        val result = ExpressionBuilder(expression).build().evaluate()
+        lastOperationLabel.text = expression
+        inputField.clear()
+        inputField.text = result.toString()
+        lastOperation = lastChangeRequester.SYSTEM_MADE
+    }
+
+    private fun ceButtonPressed() { inputField.clear() }
+    private fun cButtonPressed() {
+        inputField.clear()
+        lastOperationLabel.text = ""
+    }
+    private fun eraseButtonPressed() {
+        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
+            inputField.clear()
+            return
+        }
+
+        inputField.text = inputField.text.substring(0, inputField.text.length - 1)
+    }
+
+
 
     private fun alertOfNightlyBuild(stage: Stage) {
         val alertDialog = Alert(Alert.AlertType.INFORMATION)

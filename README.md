@@ -8,9 +8,9 @@ AuroraCalc is a Windows 11-inspired calculator built with **Kotlin + JavaFX**, a
 
 ## 🚀 Current Status
 
-- **Development Stage:** Early Development (GUI 80% complete, Logic not implemented yet)
-- **Functionality:** Currently, the app runs but lacks operational logic. The interface is mostly in place, but additional features and logic need to be implemented.
-- **Usability:** At this stage, the calculator is non-functional and serves as a UI prototype.
+- **Development Stage:** Early Development. The GUI is complete at the state of what it currently can do. The History and menu functions are not yet implemented.
+- **Functionality:** Basic operations are possible. Even though, they is a really, REALLY strange bug with operation symbols which make sequential operations hard to follow.
+- **Usability:** At this stage, the calculator is non-functional neither for end users or developers.
 
 ## 🎯 Features (Planned)
 
@@ -35,12 +35,10 @@ AuroraCalc/
 ├── src/main/kotlin/com/korealm/         # Kotlin source code
 │   ├── Main.kt                           # Entry point of the app
 │   ├── InitController.kt                 # Handles UI interactions
-│   └── ...                               # Other Controller classes
 ├── src/main/resources/com/korealm/      # UI resources
 │   ├── main.fxml                          # UI layout
 │   ├── styles/                            # CSS files
 │   ├── icons/                             # Icons used in the app
-│   └── ...
 ├── README.md                             # This file
 ├── LICENSE                               # GPLv3 (GNU General Public License v3)
 └── ...
@@ -66,6 +64,12 @@ AuroraCalc/
 
 ## 🤝 Contributing
 Contributions are welcome! Feel free to fork the repository and submit pull requests. If you have ideas, suggestions, or bug reports, open an issue on GitHub.
+
+## 🎒 Resources
+* Font: [Selawik](https://github.com/microsoft/Selawik), by Microsoft
+* Icons: [Win11 Icon Theme](https://store.kde.org/p/1546069), by yeyushengfan258
+* Libraries: [exp4j](https://www.objecthunter.net/exp4j/), by objecthunter
+
 
 ## 📜 License
 [GPLv3 (GNU General Public License v3)](LICENSE) – Free to use, modify, and distribute as long as this remains open source and it is not use for profitable purposes.
