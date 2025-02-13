@@ -8,9 +8,9 @@ AuroraCalc is a Windows 11-inspired calculator built with **Kotlin + JavaFX**, a
 
 ## 🚀 Current Status
 
-- **Development Stage:** Early Development. The GUI is complete at the state of what it currently can do. The History and menu functions are not yet implemented.
-- **Functionality:** Basic operations are possible. Even though, they is a really, REALLY strange bug with operation symbols which make sequential operations hard to follow.
-- **Usability:** At this stage, the calculator is non-functional neither for end users or developers.
+- **Development Stage:** Mid-Development. The GUI is complete at the state of what it currently can do. The history and menu functions are not yet implemented.
+- **Functionality:** Basic operations are possible. App buttons and keyboard as input work, even though there is a bug in which the ENTER remains in the last pressed button (or in the minimize button when startup), and thus triggers different events instead of showing the result of the calculation.
+- **Usability:** At this stage, the calculator is barely functional for end users and developers.
 
 ## 🎯 Features (Planned)
 

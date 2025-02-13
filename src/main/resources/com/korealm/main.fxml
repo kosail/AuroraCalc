@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="700.0" maxWidth="450.0" minHeight="700.0" minWidth="450.0" prefHeight="700.0" prefWidth="450.0" styleClass="vboxPane" stylesheets="@styles/pane.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.korealm.InitController">
+<VBox alignment="TOP_CENTER" maxHeight="700.0" maxWidth="450.0" minHeight="700.0" minWidth="450.0" onKeyPressed="#physicalKeyPadOnKeyPress" prefHeight="700.0" prefWidth="450.0" styleClass="vboxPane" stylesheets="@styles/pane.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.korealm.InitController">
    <children>
       <HBox fx:id="taskBarHBox" prefHeight="39.0" prefWidth="450.0">
          <children>
@@ -81,7 +81,7 @@
          <VBox.margin>
             <Insets left="20.0" right="20.0" />
          </VBox.margin></Label>
-      <TextField fx:id="inputField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="90.0" prefWidth="450.0" promptText="0" styleClass="text-area" stylesheets="@styles/fields.css">
+      <TextField fx:id="inputField" alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="90.0" prefWidth="450.0" promptText="0" styleClass="text-area" stylesheets="@styles/fields.css">
          <cursor>
             <Cursor fx:constant="TEXT" />
          </cursor>

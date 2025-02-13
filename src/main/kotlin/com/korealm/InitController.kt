@@ -1,5 +1,22 @@
 package com.korealm
 
+import com.korealm.NumPadController.Companion.divideButtonPressed
+import com.korealm.NumPadController.Companion.eightButtonPressed
+import com.korealm.NumPadController.Companion.equalsButtonPressed
+import com.korealm.NumPadController.Companion.eraseButtonPressed
+import com.korealm.NumPadController.Companion.fiveButtonPressed
+import com.korealm.NumPadController.Companion.fourButtonPressed
+import com.korealm.NumPadController.Companion.minusButtonPressed
+import com.korealm.NumPadController.Companion.multiplyButtonPressed
+import com.korealm.NumPadController.Companion.nineButtonPressed
+import com.korealm.NumPadController.Companion.oneButtonPressed
+import com.korealm.NumPadController.Companion.periodButtonPressed
+import com.korealm.NumPadController.Companion.plusButtonPressed
+import com.korealm.NumPadController.Companion.sevenButtonPressed
+import com.korealm.NumPadController.Companion.sixButtonPressed
+import com.korealm.NumPadController.Companion.threeButtonPressed
+import com.korealm.NumPadController.Companion.twoButtonPressed
+import com.korealm.NumPadController.Companion.zeroButtonPressed
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
@@ -8,19 +25,17 @@ import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
 import javafx.scene.layout.HBox
+import javafx.scene.layout.VBox
 import javafx.stage.Stage
-import net.objecthunter.exp4j.ExpressionBuilder
+import com.korealm.NumPadController as NumPad
 
-// I had no idea on how to instanciate all these fields in separated files, as Scene Builder asks for one Controller class only.
-// Base on that, I decided to instanciate all the objects and initialize them here. After completing all, I'll try to separate the logic of each part of the app into their respective file.
-enum class lastChangeRequester {
-    USERMADE,
-    SYSTEM_MADE
-}
+// I had no idea on how to instance all these fields in separated files, as Scene Builder asks for one Controller class only.
+// Base on that, I decided to instance all the objects and initialize them here. After completing all, I'll try to separate the logic of each part of the app into their respective file.
 
 class InitController {
-    private lateinit var stage: Stage
     // #######################
     // ### Task bar section ##
     // #######################
@@ -75,8 +90,11 @@ class InitController {
     @FXML private lateinit var multiplyButton: Button
     @FXML private lateinit var divideButton: Button
 
-    // Miscelaneous for functionalities
-    private var lastOperation: lastChangeRequester = lastChangeRequester.SYSTEM_MADE
+    // Miscellaneous for functionalities
+    private lateinit var stage: Stage
+    private lateinit var root: VBox
+    private val lastOperation = LastChangeRequester(LastChangeRequester.Status.SYSTEM_MADE)
+
 
     @FXML fun initialize() {
         // #######################
@@ -87,9 +105,9 @@ class InitController {
         val maximizeIcon = Image(javaClass.getResource("icons/maximize.png").toExternalForm(), 24.0, 24.0, true, true)
         val closeIcon = Image(javaClass.getResource("icons/close.png").toExternalForm(), 24.0, 24.0, true, true)
 
-        minimizeButton.graphic = ImageView(minimizeIcon);
-        maximizeButton.graphic = ImageView(maximizeIcon);
-        closeButton.graphic = ImageView(closeIcon);
+        minimizeButton.graphic = ImageView(minimizeIcon)
+        maximizeButton.graphic = ImageView(maximizeIcon)
+        closeButton.graphic = ImageView(closeIcon)
 
         // Section for setting the icons in the menu and history buttons
         val menuIcon = Image(javaClass.getResource("icons/menu.png").toExternalForm(), 24.0, 24.0, true, true)
@@ -122,180 +140,59 @@ class InitController {
         menuButton.setOnAction { alertOfNightlyBuild(stage) }
         historyButton.setOnAction { alertOfNightlyBuild(stage) }
 
-        // ! TODO: Fix this to get the focus on open
-        inputField.requestFocus(); // Activate TextField at first when opening the app. If not, then the user will have to click on it.
+        // ###################################
+        // ## BUTTONS LISTENERS SECTION ######
+        // ###################################
 
-        zeroButton.setOnAction { zeroButtonPressed() }
-        oneButton.setOnAction { oneButtonPressed() }
-        twoButton.setOnAction { twoButtonPressed() }
-        threeButton.setOnAction { threeButtonPressed() }
-        fourButton.setOnAction { fourButtonPressed() }
-        fiveButton.setOnAction { fiveButtonPressed() }
-        sixButton.setOnAction { sixButtonPressed() }
-        sevenButton.setOnAction { sevenButtonPressed() }
-        eightButton.setOnAction { eightButtonPressed() }
-        nineButton.setOnAction { nineButtonPressed() }
-        periodButton.setOnAction { periodButtonPressed() }
-        plusMinusButton.setOnAction { plusButtonPressed() }
-        minusButton.setOnAction { minusButtonPressed() }
-        multiplyButton.setOnAction { multiplyButtonPressed() }
-        divideButton.setOnAction { divideButtonPressed() }
-        equalsButton.setOnAction { equalsButtonPressed() }
-        ceButton.setOnAction { ceButtonPressed() }
-        ceButton.setOnAction { cButtonPressed() }
-        eraseButton.setOnAction { eraseButtonPressed() }
+        zeroButton.setOnAction { NumPad.zeroButtonPressed(lastOperation, inputField) }
+        oneButton.setOnAction { NumPad.oneButtonPressed(lastOperation, inputField) }
+        twoButton.setOnAction { NumPad.twoButtonPressed(lastOperation, inputField) }
+        threeButton.setOnAction { NumPad.threeButtonPressed(lastOperation, inputField) }
+        fourButton.setOnAction { NumPad.fourButtonPressed(lastOperation, inputField) }
+        fiveButton.setOnAction { NumPad.fiveButtonPressed(lastOperation, inputField) }
+        sixButton.setOnAction { NumPad.sixButtonPressed(lastOperation, inputField) }
+        sevenButton.setOnAction { NumPad.sevenButtonPressed(lastOperation, inputField) }
+        eightButton.setOnAction { NumPad.eightButtonPressed(lastOperation, inputField) }
+        nineButton.setOnAction { NumPad.nineButtonPressed(lastOperation, inputField) }
+        periodButton.setOnAction { NumPad.periodButtonPressed(lastOperation, inputField) }
+        plusButton.setOnAction { NumPad.plusButtonPressed(lastOperation, inputField) }
+        minusButton.setOnAction { NumPad.minusButtonPressed(lastOperation, inputField) }
+        multiplyButton.setOnAction { NumPad.multiplyButtonPressed(lastOperation, inputField) }
+        divideButton.setOnAction { NumPad.divideButtonPressed(lastOperation, inputField) }
+        equalsButton.setOnAction { NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel) }
+        ceButton.setOnAction { NumPad.ceButtonPressed(inputField) }
+        clearButton.setOnAction { NumPad.clearButtonPressed(inputField, lastOperationLabel) }
+        eraseButton.setOnAction { NumPad.eraseButtonPressed(lastOperation, inputField) }
     }
 
     fun setStage(stage: Stage) {
         this.stage = stage
     }
 
-    private fun zeroButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
-            inputField.clear()
-            lastOperation = lastChangeRequester.USERMADE
+    // ! TODO: There is a bug related to enter key, which remains where the last operation went.
+    fun physicalKeyPadOnKeyPress(event: KeyEvent) {
+        when (event.code) {
+            KeyCode.DIGIT0 -> zeroButtonPressed(lastOperation, inputField)
+            KeyCode.DIGIT1 -> oneButtonPressed(lastOperation, inputField)
+            KeyCode.DIGIT2 -> twoButtonPressed(lastOperation, inputField)
+            KeyCode.DIGIT3 -> threeButtonPressed(lastOperation, inputField)
+            KeyCode.DIGIT4 -> fourButtonPressed(lastOperation, inputField)
+            KeyCode.DIGIT5 -> fiveButtonPressed(lastOperation, inputField)
+            KeyCode.DIGIT6 -> sixButtonPressed(lastOperation, inputField)
+            KeyCode.DIGIT7 -> sevenButtonPressed(lastOperation, inputField)
+            KeyCode.DIGIT8 -> eightButtonPressed(lastOperation, inputField)
+            KeyCode.DIGIT9 -> nineButtonPressed(lastOperation, inputField)
+            KeyCode.PERIOD -> periodButtonPressed(lastOperation, inputField)
+            KeyCode.PLUS -> plusButtonPressed(lastOperation, inputField)
+            KeyCode.MINUS -> minusButtonPressed(lastOperation, inputField)
+            KeyCode.MULTIPLY -> multiplyButtonPressed(lastOperation, inputField)
+            KeyCode.DIVIDE -> divideButtonPressed(lastOperation, inputField)
+            KeyCode.EQUALS -> equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
+            KeyCode.BACK_SPACE -> eraseButtonPressed(lastOperation, inputField)
+            KeyCode.ENTER -> equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
+            else -> System.err.println("Unknown physical key: ${event.code}")
         }
-
-        inputField.appendText("0")
     }
-    private fun oneButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
-            inputField.clear()
-            lastOperation = lastChangeRequester.USERMADE
-        }
-
-        inputField.appendText("1")
-    }
-
-    private fun twoButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
-            inputField.clear()
-            lastOperation = lastChangeRequester.USERMADE
-        }
-
-        inputField.appendText("2")
-    }
-
-    private fun threeButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
-            inputField.clear()
-            lastOperation = lastChangeRequester.USERMADE
-        }
-
-        inputField.appendText("3")
-    }
-
-    private fun fourButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
-            inputField.clear()
-            lastOperation = lastChangeRequester.USERMADE
-        }
-
-        inputField.appendText("4")
-    }
-
-    private fun fiveButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
-            inputField.clear()
-            lastOperation = lastChangeRequester.USERMADE
-        }
-
-        inputField.appendText("5")
-    }
-
-    private fun sixButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
-            inputField.clear()
-            lastOperation = lastChangeRequester.USERMADE
-        }
-
-        inputField.appendText("6")
-    }
-
-    private fun sevenButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
-            inputField.clear()
-            lastOperation = lastChangeRequester.USERMADE
-        }
-
-        inputField.appendText("7")
-    }
-
-    private fun eightButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
-            inputField.clear()
-            lastOperation = lastChangeRequester.USERMADE
-        }
-
-        inputField.appendText("8")
-    }
-
-    private fun nineButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
-            inputField.clear()
-            lastOperation = lastChangeRequester.USERMADE
-        }
-
-        inputField.appendText("9")
-    }
-
-    private fun periodButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE || inputField.text.isEmpty()) {
-            inputField.clear()
-            lastOperation = lastChangeRequester.USERMADE
-            inputField.appendText("0.")
-            return;
-        }
-
-        inputField.appendText(".")
-    }
-
-    private fun plusButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) return
-        inputField.appendText("+")
-    }
-
-    private fun minusButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) return
-        inputField.appendText("-")
-    }
-
-    private fun multiplyButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) return
-        inputField.appendText("*")
-    }
-    private fun divideButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) return
-
-        inputField.appendText("/")
-    }
-
-    private fun equalsButtonPressed() {
-        val expression = inputField.text
-        if (expression.isBlank()) return
-
-        val result = ExpressionBuilder(expression).build().evaluate()
-        lastOperationLabel.text = expression
-        inputField.clear()
-        inputField.text = result.toString()
-        lastOperation = lastChangeRequester.SYSTEM_MADE
-    }
-
-    private fun ceButtonPressed() { inputField.clear() }
-    private fun cButtonPressed() {
-        inputField.clear()
-        lastOperationLabel.text = ""
-    }
-    private fun eraseButtonPressed() {
-        if (lastOperation == lastChangeRequester.SYSTEM_MADE) {
-            inputField.clear()
-            return
-        }
-
-        inputField.text = inputField.text.substring(0, inputField.text.length - 1)
-    }
-
-
 
     private fun alertOfNightlyBuild(stage: Stage) {
         val alertDialog = Alert(Alert.AlertType.INFORMATION)
