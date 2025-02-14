@@ -17,7 +17,6 @@ import com.korealm.NumPadController.Companion.sixButtonPressed
 import com.korealm.NumPadController.Companion.threeButtonPressed
 import com.korealm.NumPadController.Companion.twoButtonPressed
 import com.korealm.NumPadController.Companion.zeroButtonPressed
-import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
@@ -34,6 +33,12 @@ import com.korealm.NumPadController as NumPad
 
 // I had no idea on how to instance all these fields in separated files, as Scene Builder asks for one Controller class only.
 // Base on that, I decided to instance all the objects and initialize them here. After completing all, I'll try to separate the logic of each part of the app into their respective file.
+/* TODO: Implement the following buttons:
+*  TODO: percentage, fraction, exponential, squared root and plus/minus sign
+*  TODO: CURRENTLY WORKING AT: PLUS/MINUS SIGN
+*   Notes: Use a stack to store all operations separating them by what it is not a number. In that way, the last number will be parsed well and it can be replace from the String of the TextField with the same value but with contrary sign.
+*   ! However, I have to think in a way of getting not only the number, but the last operator which was in front of it.
+*/
 
 class InitController {
     // #######################
