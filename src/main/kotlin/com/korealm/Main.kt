@@ -25,6 +25,8 @@ class Main : Application() {
 
         stage.scene = scene
         stage.show()
+
+        controller.setFocusOnInputField() // Fix that I came with to maintain the focus ALWAYS in the textfield, and thus the enter key will always trigger the equals button (to show results)
     }
 }
 
