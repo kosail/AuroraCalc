@@ -144,32 +144,52 @@ class InitController {
         // ## BUTTONS LISTENERS SECTION ######
         // ###################################
 
-        zeroButton.setOnAction { NumPad.zeroButtonPressed(lastOperation, inputField) }
-        oneButton.setOnAction { NumPad.oneButtonPressed(lastOperation, inputField) }
-        twoButton.setOnAction { NumPad.twoButtonPressed(lastOperation, inputField) }
-        threeButton.setOnAction { NumPad.threeButtonPressed(lastOperation, inputField) }
-        fourButton.setOnAction { NumPad.fourButtonPressed(lastOperation, inputField) }
-        fiveButton.setOnAction { NumPad.fiveButtonPressed(lastOperation, inputField) }
-        sixButton.setOnAction { NumPad.sixButtonPressed(lastOperation, inputField) }
-        sevenButton.setOnAction { NumPad.sevenButtonPressed(lastOperation, inputField) }
-        eightButton.setOnAction { NumPad.eightButtonPressed(lastOperation, inputField) }
-        nineButton.setOnAction { NumPad.nineButtonPressed(lastOperation, inputField) }
-        periodButton.setOnAction { NumPad.periodButtonPressed(lastOperation, inputField) }
-        plusButton.setOnAction { NumPad.plusButtonPressed(lastOperation, inputField) }
-        minusButton.setOnAction { NumPad.minusButtonPressed(lastOperation, inputField) }
-        multiplyButton.setOnAction { NumPad.multiplyButtonPressed(lastOperation, inputField) }
-        divideButton.setOnAction { NumPad.divideButtonPressed(lastOperation, inputField) }
-        equalsButton.setOnAction { NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel) }
-        ceButton.setOnAction { NumPad.ceButtonPressed(inputField) }
-        clearButton.setOnAction { NumPad.clearButtonPressed(inputField, lastOperationLabel) }
-        eraseButton.setOnAction { NumPad.eraseButtonPressed(lastOperation, inputField) }
+        zeroButton.setOnAction { NumPad.zeroButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        oneButton.setOnAction { NumPad.oneButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        twoButton.setOnAction { NumPad.twoButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        threeButton.setOnAction { NumPad.threeButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        fourButton.setOnAction { NumPad.fourButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        fiveButton.setOnAction { NumPad.fiveButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        sixButton.setOnAction { NumPad.sixButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        sevenButton.setOnAction { NumPad.sevenButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        eightButton.setOnAction { NumPad.eightButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        nineButton.setOnAction { NumPad.nineButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        periodButton.setOnAction { NumPad.periodButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        plusButton.setOnAction { NumPad.plusButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        minusButton.setOnAction { NumPad.minusButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        multiplyButton.setOnAction { NumPad.multiplyButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        divideButton.setOnAction { NumPad.divideButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        equalsButton.setOnAction { NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel); setFocusOnInputField() }
+        ceButton.setOnAction { NumPad.ceButtonPressed(inputField); setFocusOnInputField() }
+        clearButton.setOnAction { NumPad.clearButtonPressed(inputField, lastOperationLabel); setFocusOnInputField() }
+        eraseButton.setOnAction { NumPad.eraseButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+
+        // Add a focus listener to the inputField to avoid the default selection of the entire text inside the TextField when gaining focus
+        inputField.focusedProperty().addListener { _, _, isFocused ->
+            if (isFocused) {
+                // Move the caret to the end of the text when the inputField gains focus
+                inputField.positionCaret(inputField.text.length)
+            }
+        }
+
+        // Add a listener because the app buttons are updating the value of lastOperation, but the key events are not.
+        // Tbh I don't fully understand why this is happening, but apparently is something related to internals of JavaFX, that when triggered from keyboard the inputField values are updated by JavaFX instead of being by the methods I defined.
+        inputField.textProperty().addListener { _, _, newValue ->
+            if (newValue.isNotEmpty()) {
+                lastOperation.state = LastChangeRequester.Status.USER_MADE
+            }
+        }
     }
 
     fun setStage(stage: Stage) {
         this.stage = stage
     }
 
-    // ! TODO: There is a bug related to enter key, which remains where the last operation went.
+    fun setFocusOnInputField() {
+        inputField.requestFocus()
+        inputField.positionCaret(inputField.text.length) // Move caret to the end of the text.
+    }
+
     fun physicalKeyPadOnKeyPress(event: KeyEvent) {
         when (event.code) {
             KeyCode.DIGIT0 -> zeroButtonPressed(lastOperation, inputField)
@@ -189,7 +209,10 @@ class InitController {
             KeyCode.DIVIDE -> divideButtonPressed(lastOperation, inputField)
             KeyCode.EQUALS -> equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
             KeyCode.BACK_SPACE -> eraseButtonPressed(lastOperation, inputField)
-            KeyCode.ENTER -> equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
+            KeyCode.ENTER -> {
+                equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
+                setFocusOnInputField()
+            }
             else -> System.err.println("Unknown physical key: ${event.code}")
         }
     }

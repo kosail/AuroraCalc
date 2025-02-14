@@ -7,6 +7,8 @@ import net.objecthunter.exp4j.ExpressionBuilder
 class NumPadController {
     companion object {
         fun zeroButtonPressed(lastOperation: LastChangeRequester, inputField: TextField) {
+            if (inputField.text.isEmpty()) return
+
             if (lastOperation.state == LastChangeRequester.Status.SYSTEM_MADE) {
                 inputField.clear()
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
