@@ -4,6 +4,7 @@ import com.korealm.NumPadController.Companion.divideButtonPressed
 import com.korealm.NumPadController.Companion.eightButtonPressed
 import com.korealm.NumPadController.Companion.equalsButtonPressed
 import com.korealm.NumPadController.Companion.eraseButtonPressed
+import com.korealm.NumPadController.Companion.exponentialButtonPressed
 import com.korealm.NumPadController.Companion.fiveButtonPressed
 import com.korealm.NumPadController.Companion.fourButtonPressed
 import com.korealm.NumPadController.Companion.minusButtonPressed
@@ -35,8 +36,10 @@ import com.korealm.NumPadController as NumPad
 // Base on that, I decided to instance all the objects and initialize them here. After completing all, I'll try to separate the logic of each part of the app into their respective file.
 /* TODO: Implement the following buttons:
 *  TODO: percentage, fraction, exponential, squared root and plus/minus sign
-*  TODO: CURRENTLY WORKING AT: PLUS/MINUS SIGN
-*   Notes: Use a stack to store all operations separating them by what it is not a number. In that way, the last number will be parsed well and it can be replace from the String of the TextField with the same value but with contrary sign.
+*  TODO: CURRENTLY WORKING AT: EXPONENTIAL
+*   There is a weird bug in which when typed the exponential symbol, it remains as ^ instead of converting the number to the superscript version. It works when I'm not selecting the TextLabel, and thus I suspect that it is related to the fact that the keyboard listeners are tied to the window, but the one that has the focus now is the TextLabel, so the TextLabel is the one handling the events. I have to take on this.
+*
+*   Ideas for  PLUS/MINUS SIGN: Use a stack to store all operations separating them by what it is not a number. In that way, the last number will be parsed well and it can be replace from the String of the TextField with the same value but with contrary sign.
 *   ! However, I have to think in a way of getting not only the number, but the last operator which was in front of it.
 */
 
@@ -168,6 +171,7 @@ class InitController {
         ceButton.setOnAction { NumPad.ceButtonPressed(inputField); setFocusOnInputField() }
         clearButton.setOnAction { NumPad.clearButtonPressed(inputField, lastOperationLabel); setFocusOnInputField() }
         eraseButton.setOnAction { NumPad.eraseButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        exponentialButton.setOnAction { NumPad.exponentialButtonPressed(lastOperation, inputField); setFocusOnInputField() }
 
         // Add a focus listener to the inputField to avoid the default selection of the entire text inside the TextField when gaining focus
         inputField.focusedProperty().addListener { _, _, isFocused ->
@@ -218,6 +222,7 @@ class InitController {
                 equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
                 setFocusOnInputField()
             }
+            KeyCode.CIRCUMFLEX -> exponentialButtonPressed(lastOperation, inputField)
             else -> System.err.println("Unknown physical key: ${event.code}")
         }
     }

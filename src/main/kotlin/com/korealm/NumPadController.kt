@@ -1,5 +1,6 @@
 package com.korealm
 
+import javafx.application.Platform
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import net.objecthunter.exp4j.ExpressionBuilder
@@ -14,12 +15,26 @@ class NumPadController {
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
             }
 
+            // Add the number in a more pretty way to the user. This adds unnecessary complexity, but makes things eye-appealing
+            if (inputField.text.last() == '^') {
+                eraseButtonPressed(lastOperation, inputField)
+                inputField.appendText("⁰")
+                return
+            }
+
             inputField.appendText("0")
         }
+
         fun oneButtonPressed(lastOperation: LastChangeRequester, inputField: TextField) {
             if (lastOperation.state == LastChangeRequester.Status.SYSTEM_MADE) {
                 inputField.clear()
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
+            }
+
+            if (inputField.text.isNotBlank() && inputField.text.last() == '^') {
+                eraseButtonPressed(lastOperation, inputField)
+                inputField.appendText("¹")
+                return
             }
 
             inputField.appendText("1")
@@ -31,6 +46,12 @@ class NumPadController {
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
             }
 
+            if (inputField.text.isNotBlank() && inputField.text.last() == '^') {
+                eraseButtonPressed(lastOperation, inputField)
+                inputField.appendText("²")
+                return
+            }
+
             inputField.appendText("2")
         }
 
@@ -38,6 +59,12 @@ class NumPadController {
             if (lastOperation.state == LastChangeRequester.Status.SYSTEM_MADE) {
                 inputField.clear()
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
+            }
+
+            if (inputField.text.isNotBlank() && inputField.text.last() == '^') {
+                eraseButtonPressed(lastOperation, inputField)
+                inputField.appendText("³")
+                return
             }
 
             inputField.appendText("3")
@@ -49,6 +76,12 @@ class NumPadController {
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
             }
 
+            if (inputField.text.isNotBlank() && inputField.text.last() == '^') {
+                eraseButtonPressed(lastOperation, inputField)
+                inputField.appendText("⁴")
+                return
+            }
+
             inputField.appendText("4")
         }
 
@@ -56,6 +89,12 @@ class NumPadController {
             if (lastOperation.state == LastChangeRequester.Status.SYSTEM_MADE) {
                 inputField.clear()
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
+            }
+
+            if (inputField.text.isNotBlank() && inputField.text.last() == '^') {
+                eraseButtonPressed(lastOperation, inputField)
+                inputField.appendText("⁵")
+                return
             }
 
             inputField.appendText("5")
@@ -67,6 +106,12 @@ class NumPadController {
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
             }
 
+            if (inputField.text.isNotBlank() && inputField.text.last() == '^') {
+                eraseButtonPressed(lastOperation, inputField)
+                inputField.appendText("⁶")
+                return
+            }
+
             inputField.appendText("6")
         }
 
@@ -74,6 +119,12 @@ class NumPadController {
             if (lastOperation.state == LastChangeRequester.Status.SYSTEM_MADE) {
                 inputField.clear()
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
+            }
+
+            if (inputField.text.isNotBlank() && inputField.text.last() == '^') {
+                eraseButtonPressed(lastOperation, inputField)
+                inputField.appendText("⁷")
+                return
             }
 
             inputField.appendText("7")
@@ -85,6 +136,12 @@ class NumPadController {
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
             }
 
+            if (inputField.text.isNotBlank() && inputField.text.last() == '^') {
+                eraseButtonPressed(lastOperation, inputField)
+                inputField.appendText("⁸")
+                return
+            }
+
             inputField.appendText("8")
         }
 
@@ -92,6 +149,12 @@ class NumPadController {
             if (lastOperation.state == LastChangeRequester.Status.SYSTEM_MADE) {
                 inputField.clear()
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
+            }
+
+            if (inputField.text.isNotBlank() && inputField.text.last() == '^') {
+                eraseButtonPressed(lastOperation, inputField)
+                inputField.appendText("⁹")
+                return
             }
 
             inputField.appendText("9")
@@ -122,15 +185,16 @@ class NumPadController {
             lastOperation.state = LastChangeRequester.Status.USER_MADE
             inputField.appendText("*")
         }
+
         fun divideButtonPressed(lastOperation: LastChangeRequester, inputField: TextField) {
             lastOperation.state = LastChangeRequester.Status.USER_MADE
             inputField.appendText("/")
         }
 
         fun equalsButtonPressed(lastOperation: LastChangeRequester, inputField: TextField, lastOperationLabel: Label) {
-            val expression = inputField.text
+            val expression = inputField.text.replaceSuperscripts()
             if (expression.isBlank()) return
-            if (!expression.last().isDigit()) return
+            if (expression.last().isLetter()) return
 
             for (i in expression.lastIndex downTo 0) {
                 if (expression[i].isLetter()) return // This will kill any support for the e number... but good enough for now.
@@ -139,7 +203,7 @@ class NumPadController {
             val result = ExpressionBuilder(expression).build().evaluate()
             lastOperationLabel.text = expression
             inputField.clear()
-            inputField.text = if ((result % 1) != 0.0) "%.2f".format(result) else Integer.toString(result.toInt())
+            inputField.text = if ((result % 1) != 0.0) "%.2f".format(result) else result.toInt().toString()
             lastOperation.state = LastChangeRequester.Status.USER_MADE
         }
 
@@ -149,6 +213,7 @@ class NumPadController {
             inputField.clear()
             lastOperationLabel.text = ""
         }
+
         fun eraseButtonPressed(lastOperation: LastChangeRequester, inputField: TextField) {
             if (inputField.text.isBlank()) return
             if (lastOperation.state == LastChangeRequester.Status.SYSTEM_MADE) {
@@ -157,6 +222,36 @@ class NumPadController {
             }
 
             inputField.text = inputField.text.substring(0, inputField.text.length - 1)
+        }
+
+        fun exponentialButtonPressed(lastOperation: LastChangeRequester, inputField: TextField) {
+            if (inputField.text.isBlank()) return
+
+            lastOperation.state = LastChangeRequester.Status.USER_MADE
+
+            // Use Platform.runLater to ensure the TextField is updated before checking the last character
+            Platform.runLater {
+                // Check if the last character is already '^'
+                if (inputField.text.isNotEmpty() && inputField.text.last() == '^') {
+                    // Remove the last '^' character
+                    eraseButtonPressed(lastOperation, inputField)
+                } else {
+                    // Append '^' to the inputField
+                    inputField.appendText("^")
+                }
+            }
+        }
+
+        private fun String.replaceSuperscripts(): String {
+            val superScriptList: List<String> = listOf("⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹")
+            var result = this // Start with the original string
+
+            // Iterate over each superscript and replace it with the corresponding "^number"
+            for (i in superScriptList.indices) {
+                result = result.replace(superScriptList[i], "^$i")
+            }
+
+            return result
         }
     }
 }
