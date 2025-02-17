@@ -11,6 +11,7 @@ AuroraCalc is a Windows 11-inspired calculator built with **Kotlin + JavaFX**, a
 - **Development Stage:** Mid-Development. The GUI is complete at the state of what it currently can do. The history and menu functions are not yet implemented.
 - **Functionality:** Basic operations are possible. App buttons and keyboard as input work, even though there is a bug in which the ENTER remains in the last pressed button (or in the minimize button when startup), and thus triggers different events instead of showing the result of the calculation.
 - **Usability:** At this stage, the calculator is barely functional for end users and developers.
+- **Known bugs:** When using the buttons in the app all works fine (for instance, overwriting ^6 for ⁶ which is more eye-candy), but when using the keyboard as input... oh boi, I split open my head trying to remove the default behavior from the TextField when receiving numbers from 0-9 and handle it myself. It was... hard. Let's say keyboard input is handled well, but is not as polished as I planned it to be.
 
 ## 🎯 Features (Planned)
 
@@ -51,7 +52,7 @@ AuroraCalc/
    git clone https://github.com/kosail/AuroraCalc.git
    cd AuroraCalc
    ```
-2. Open the project in **IntelliJ IDEA** (recommended) or another IDE with Kotlin support. Just keep in mind that **this project does not uses gradle or maven**. It was build with pure IntelliJ.
+2. Open the project in **IntelliJ IDEA** (recommended) or another IDE with Kotlin support. Just keep in mind that **this project does not use gradle or maven**. It was build with pure IntelliJ.
 3. Run the `Main.kt` file to launch the application.
 
 ## 📌 Roadmap
@@ -72,7 +73,7 @@ Contributions are welcome! Feel free to fork the repository and submit pull requ
 
 
 ## 📜 License
-[GPLv3 (GNU General Public License v3)](LICENSE) – Free to use, modify, and distribute as long as this remains open source and it is not use for profitable purposes.
+[GPLv3 (GNU General Public License v3)](LICENSE.txt) – Free to use, modify, and distribute as long as this remains open source, and it is not use for profitable purposes.
 
 ---
 > **Note:** AuroraCalc is a personal learning project and is not affiliated with Microsoft, Windows 11 or any other brand or product.
