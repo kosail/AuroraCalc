@@ -4,6 +4,7 @@ import javafx.application.Platform
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import net.objecthunter.exp4j.ExpressionBuilder
+import net.objecthunter.exp4j.tokenizer.UnknownFunctionOrVariableException
 
 class NumPadController {
     companion object {
@@ -192,15 +193,26 @@ class NumPadController {
         }
 
         fun equalsButtonPressed(lastOperation: LastChangeRequester, inputField: TextField, lastOperationLabel: Label) {
-            val expression = inputField.text.replaceSuperscripts()
-            if (expression.isBlank()) return
-            if (expression.last().isLetter()) return
+            if (inputField.text.isBlank()) return
 
-            for (i in expression.lastIndex downTo 0) {
-                if (expression[i].isLetter()) return // This will kill any support for the e number... but good enough for now.
+            if (inputField.text.last() == '%') {
+                inputField.text = inputField.text.dropLast(1)
+                percentageButtonPressed(lastOperation, inputField)
             }
 
-            val result = ExpressionBuilder(expression).build().evaluate()
+            val expression = inputField.text.replaceSuperscripts().replaceSqrtSymbol()
+            val result: Double
+
+            try {
+                result = ExpressionBuilder(expression).build().evaluate()
+            } catch (e: UnknownFunctionOrVariableException) {
+                System.err.println("Unknown function or variable: ${e.message}")
+                return
+            } catch (e: IllegalArgumentException) {
+                System.err.println("Invalid function or variable: ${e.message}")
+                return
+            }
+
             lastOperationLabel.text = expression
             inputField.clear()
             inputField.text = if ((result % 1) != 0.0) "%.2f".format(result) else result.toInt().toString()
@@ -252,6 +264,37 @@ class NumPadController {
             }
 
             return result
+        }
+
+        private fun String.replaceSqrtSymbol(): String {
+            var result = this
+            result = result.replace("√", "sqrt")
+
+            return result
+        }
+
+        fun sqrtButtonPressed(lastOperation: LastChangeRequester, inputField: TextField) {
+            if (lastOperation.state == LastChangeRequester.Status.SYSTEM_MADE && inputField.text.isNotBlank()) {
+                inputField.clear()
+                return
+            }
+
+            inputField.appendText("√")
+        }
+
+        fun percentageButtonPressed(lastOperation: LastChangeRequester, inputField: TextField) {
+            if (inputField.text.isBlank()) return
+
+            if (lastOperation.state == LastChangeRequester.Status.SYSTEM_MADE) {
+                inputField.clear()
+                lastOperation.state = LastChangeRequester.Status.USER_MADE
+            }
+
+            val lastNumber = inputField.text.split('+', '-', '*', '/').last().trim()
+            val percentageValue = lastNumber.toDoubleOrNull() ?: return
+
+            val result = percentageValue / 100
+            inputField.text = inputField.text.dropLast(lastNumber.length) + result.toString()
         }
     }
 }

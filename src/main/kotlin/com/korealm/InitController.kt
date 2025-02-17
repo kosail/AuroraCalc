@@ -17,9 +17,7 @@ import com.korealm.NumPadController as NumPad
 // I had no idea on how to instance all these fields in separated files, as Scene Builder asks for one Controller class only.
 // Base on that, I decided to instance all the objects and initialize them here. After completing all, I'll try to separate the logic of each part of the app into their respective file.
 /* TODO: Implement the following buttons:
-*  TODO: percentage, fraction, squared root and plus/minus sign
-*  TODO: CURRENTLY WORKING AT: SQRT
-*
+*  TODO: plus/minus sign
 *   Ideas for  PLUS/MINUS SIGN: Use a stack to store all operations separating them by what it is not a number. In that way, the last number will be parsed well and it can be replace from the String of the TextField with the same value but with contrary sign.
 *   ! However, I have to think in a way of getting not only the number, but the last operator which was in front of it.
 */
@@ -152,6 +150,9 @@ class InitController {
         clearButton.setOnAction { NumPad.clearButtonPressed(inputField, lastOperationLabel); setFocusOnInputField() }
         eraseButton.setOnAction { NumPad.eraseButtonPressed(lastOperation, inputField); setFocusOnInputField() }
         exponentialButton.setOnAction { NumPad.exponentialButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        sqrtButton.setOnAction { NumPad.sqrtButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        fractionButton.setOnAction { NumPad.divideButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        percentageButton.setOnAction { NumPad.percentageButtonPressed(lastOperation, inputField); setFocusOnInputField() }
 
         // Whenever the TextField handles a Keyboard Event, update the status of the last requester to user.
         inputField.textProperty().addListener { _, _, newValue ->
