@@ -1,23 +1,6 @@
 package com.korealm
 
-import com.korealm.NumPadController.Companion.divideButtonPressed
-import com.korealm.NumPadController.Companion.eightButtonPressed
-import com.korealm.NumPadController.Companion.equalsButtonPressed
-import com.korealm.NumPadController.Companion.eraseButtonPressed
-import com.korealm.NumPadController.Companion.exponentialButtonPressed
-import com.korealm.NumPadController.Companion.fiveButtonPressed
-import com.korealm.NumPadController.Companion.fourButtonPressed
-import com.korealm.NumPadController.Companion.minusButtonPressed
-import com.korealm.NumPadController.Companion.multiplyButtonPressed
-import com.korealm.NumPadController.Companion.nineButtonPressed
-import com.korealm.NumPadController.Companion.oneButtonPressed
-import com.korealm.NumPadController.Companion.periodButtonPressed
-import com.korealm.NumPadController.Companion.plusButtonPressed
-import com.korealm.NumPadController.Companion.sevenButtonPressed
-import com.korealm.NumPadController.Companion.sixButtonPressed
-import com.korealm.NumPadController.Companion.threeButtonPressed
-import com.korealm.NumPadController.Companion.twoButtonPressed
-import com.korealm.NumPadController.Companion.zeroButtonPressed
+import javafx.event.EventType
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
@@ -28,16 +11,14 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.layout.HBox
-import javafx.scene.layout.VBox
 import javafx.stage.Stage
 import com.korealm.NumPadController as NumPad
 
 // I had no idea on how to instance all these fields in separated files, as Scene Builder asks for one Controller class only.
 // Base on that, I decided to instance all the objects and initialize them here. After completing all, I'll try to separate the logic of each part of the app into their respective file.
 /* TODO: Implement the following buttons:
-*  TODO: percentage, fraction, exponential, squared root and plus/minus sign
-*  TODO: CURRENTLY WORKING AT: EXPONENTIAL
-*   There is a weird bug in which when typed the exponential symbol, it remains as ^ instead of converting the number to the superscript version. It works when I'm not selecting the TextLabel, and thus I suspect that it is related to the fact that the keyboard listeners are tied to the window, but the one that has the focus now is the TextLabel, so the TextLabel is the one handling the events. I have to take on this.
+*  TODO: percentage, fraction, squared root and plus/minus sign
+*  TODO: CURRENTLY WORKING AT: SQRT
 *
 *   Ideas for  PLUS/MINUS SIGN: Use a stack to store all operations separating them by what it is not a number. In that way, the last number will be parsed well and it can be replace from the String of the TextField with the same value but with contrary sign.
 *   ! However, I have to think in a way of getting not only the number, but the last operator which was in front of it.
@@ -100,7 +81,6 @@ class InitController {
 
     // Miscellaneous for functionalities
     private lateinit var stage: Stage
-    private lateinit var root: VBox
     private val lastOperation = LastChangeRequester(LastChangeRequester.Status.SYSTEM_MADE)
 
 
@@ -173,21 +153,20 @@ class InitController {
         eraseButton.setOnAction { NumPad.eraseButtonPressed(lastOperation, inputField); setFocusOnInputField() }
         exponentialButton.setOnAction { NumPad.exponentialButtonPressed(lastOperation, inputField); setFocusOnInputField() }
 
-        // Add a focus listener to the inputField to avoid the default selection of the entire text inside the TextField when gaining focus
-        inputField.focusedProperty().addListener { _, _, isFocused ->
-            if (isFocused) {
-                // Move the caret to the end of the text when the inputField gains focus
-                inputField.positionCaret(inputField.text.length)
-            }
-        }
-
-        // Add a listener because the app buttons are updating the value of lastOperation, but the key events are not.
-        // Tbh I don't fully understand why this is happening, but apparently is something related to internals of JavaFX, that when triggered from keyboard the inputField values are updated by JavaFX instead of being by the methods I defined.
+        // Whenever the TextField handles a Keyboard Event, update the status of the last requester to user.
         inputField.textProperty().addListener { _, _, newValue ->
             if (newValue.isNotEmpty()) {
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
             }
         }
+
+        inputField.addEventFilter(KeyEvent.KEY_PRESSED) { event ->
+            if (event.code == KeyCode.ENTER) {
+                NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
+                inputField.positionCaret(inputField.text.length)
+            }
+        }
+
     }
 
     fun setStage(stage: Stage) {
@@ -199,33 +178,31 @@ class InitController {
         inputField.positionCaret(inputField.text.length) // Move caret to the end of the text.
     }
 
-    fun physicalKeyPadOnKeyPress(event: KeyEvent) {
-        when (event.code) {
-            KeyCode.DIGIT0 -> zeroButtonPressed(lastOperation, inputField)
-            KeyCode.DIGIT1 -> oneButtonPressed(lastOperation, inputField)
-            KeyCode.DIGIT2 -> twoButtonPressed(lastOperation, inputField)
-            KeyCode.DIGIT3 -> threeButtonPressed(lastOperation, inputField)
-            KeyCode.DIGIT4 -> fourButtonPressed(lastOperation, inputField)
-            KeyCode.DIGIT5 -> fiveButtonPressed(lastOperation, inputField)
-            KeyCode.DIGIT6 -> sixButtonPressed(lastOperation, inputField)
-            KeyCode.DIGIT7 -> sevenButtonPressed(lastOperation, inputField)
-            KeyCode.DIGIT8 -> eightButtonPressed(lastOperation, inputField)
-            KeyCode.DIGIT9 -> nineButtonPressed(lastOperation, inputField)
-            KeyCode.PERIOD -> periodButtonPressed(lastOperation, inputField)
-            KeyCode.PLUS -> plusButtonPressed(lastOperation, inputField)
-            KeyCode.MINUS -> minusButtonPressed(lastOperation, inputField)
-            KeyCode.MULTIPLY -> multiplyButtonPressed(lastOperation, inputField)
-            KeyCode.DIVIDE -> divideButtonPressed(lastOperation, inputField)
-            KeyCode.EQUALS -> equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
-            KeyCode.BACK_SPACE -> eraseButtonPressed(lastOperation, inputField)
-            KeyCode.ENTER -> {
-                equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
-                setFocusOnInputField()
-            }
-            KeyCode.CIRCUMFLEX -> exponentialButtonPressed(lastOperation, inputField)
-            else -> System.err.println("Unknown physical key: ${event.code}")
-        }
-    }
+//    Probably I will not use this anymore...
+//    private fun physicalKeyPadOnKeyPress(key: KeyCode) {
+//        when (key) {
+//            KeyCode.DIGIT0 -> NumPad.zeroButtonPressed(lastOperation, inputField)
+//            KeyCode.DIGIT1 -> NumPad.oneButtonPressed(lastOperation, inputField)
+//            KeyCode.DIGIT2 -> NumPad.twoButtonPressed(lastOperation, inputField)
+//            KeyCode.DIGIT3 -> NumPad.threeButtonPressed(lastOperation, inputField)
+//            KeyCode.DIGIT4 -> NumPad.fourButtonPressed(lastOperation, inputField)
+//            KeyCode.DIGIT5 -> NumPad.fiveButtonPressed(lastOperation, inputField)
+//            KeyCode.DIGIT6 -> NumPad.sixButtonPressed(lastOperation, inputField)
+//            KeyCode.DIGIT7 -> NumPad.sevenButtonPressed(lastOperation, inputField)
+//            KeyCode.DIGIT8 -> NumPad.eightButtonPressed(lastOperation, inputField)
+//            KeyCode.DIGIT9 -> NumPad.nineButtonPressed(lastOperation, inputField)
+//            KeyCode.PERIOD -> NumPad.periodButtonPressed(lastOperation, inputField)
+//            KeyCode.PLUS -> NumPad.plusButtonPressed(lastOperation, inputField)
+//            KeyCode.MINUS -> NumPad.minusButtonPressed(lastOperation, inputField)
+//            KeyCode.STAR -> NumPad.multiplyButtonPressed(lastOperation, inputField)
+//            KeyCode.SLASH -> NumPad.divideButtonPressed(lastOperation, inputField)
+//            KeyCode.EQUALS -> NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
+//            KeyCode.BACK_SPACE -> NumPad.eraseButtonPressed(lastOperation, inputField)
+//            KeyCode.ENTER -> NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
+//            KeyCode.CIRCUMFLEX ->  NumPad.exponentialButtonPressed(lastOperation, inputField)
+//            else -> System.err.println("Unknown physical key: $key")
+//        }
+//    }
 
     private fun alertOfNightlyBuild(stage: Stage) {
         val alertDialog = Alert(Alert.AlertType.INFORMATION)
