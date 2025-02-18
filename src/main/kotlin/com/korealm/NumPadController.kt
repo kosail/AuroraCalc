@@ -211,6 +211,10 @@ class NumPadController {
             } catch (e: IllegalArgumentException) {
                 System.err.println("Invalid function or variable: ${e.message}")
                 return
+            } catch (e: ArithmeticException) {
+                System.err.println("Impossible to compute.\nArithmetic exception: ${e.message}")
+                inputField.clear()
+                return
             }
 
             lastOperationLabel.text = expression
@@ -295,6 +299,44 @@ class NumPadController {
 
             val result = percentageValue / 100
             inputField.text = inputField.text.dropLast(lastNumber.length) + result.toString()
+        }
+
+        fun plusMinusButtonPressed(lastOperation: LastChangeRequester, inputField: TextField) {
+            var text = inputField.text
+            if (text.isBlank()) return
+
+            if (lastOperation.state == LastChangeRequester.Status.SYSTEM_MADE) {
+                inputField.clear()
+                lastOperation.state = LastChangeRequester.Status.USER_MADE
+            }
+
+            val lastNumber = text.split('+', '-', '*', '/').last().trim()
+            text = text.dropLast(lastNumber.length)
+
+            // If there is only one number
+            if (text.isBlank()) {
+                text = "-$lastNumber"
+            }
+
+            // There is only one number AND it is negative
+            if (text.last() == '-' && text.length == 1) {
+                text = text.dropLast(1)
+                text += lastNumber
+            }
+
+            // If there is an expression (more than one number [not digit, but number]), and it is possitive, change the sign
+            if (text.last() == '+') {
+                text = text.dropLast(1)
+                text += "-$lastNumber"
+            }
+
+            // If the last sign is negative AND it is an expression
+            if (text.last() == '-' && text.length > 1) {
+                text = text.dropLast(1)
+                text += "+$lastNumber"
+            }
+
+            inputField.text = text
         }
     }
 }
