@@ -1,6 +1,5 @@
 package com.korealm
 
-import javafx.event.EventType
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
@@ -14,12 +13,9 @@ import javafx.scene.layout.HBox
 import javafx.stage.Stage
 import com.korealm.NumPadController as NumPad
 
-// I had no idea on how to instance all these fields in separated files, as Scene Builder asks for one Controller class only.
-// Base on that, I decided to instance all the objects and initialize them here. After completing all, I'll try to separate the logic of each part of the app into their respective file.
-/* TODO: Implement the following buttons:
-*  TODO: plus/minus sign
-*   Ideas for  PLUS/MINUS SIGN: Use a stack to store all operations separating them by what it is not a number. In that way, the last number will be parsed well and it can be replace from the String of the TextField with the same value but with contrary sign.
-*   ! However, I have to think in a way of getting not only the number, but the last operator which was in front of it.
+/* I had no idea on how to instance all these fields in separated files, as Scene Builder asks for one Controller class only.
+* Base on that, I decided to instance all the objects and initialize them here. After completing all, I'll try to separate the logic of each part of the app into their respective file.
+* TODO: Implement the menu and the history button
 */
 
 class InitController {
@@ -80,7 +76,6 @@ class InitController {
     // Miscellaneous for functionalities
     private lateinit var stage: Stage
     private val lastOperation = LastChangeRequester(LastChangeRequester.Status.SYSTEM_MADE)
-
 
     @FXML fun initialize() {
         // #######################
@@ -153,6 +148,7 @@ class InitController {
         sqrtButton.setOnAction { NumPad.sqrtButtonPressed(lastOperation, inputField); setFocusOnInputField() }
         fractionButton.setOnAction { NumPad.divideButtonPressed(lastOperation, inputField); setFocusOnInputField() }
         percentageButton.setOnAction { NumPad.percentageButtonPressed(lastOperation, inputField); setFocusOnInputField() }
+        plusMinusButton.setOnAction { NumPad.plusMinusButtonPressed(lastOperation, inputField); setFocusOnInputField() }
 
         // Whenever the TextField handles a Keyboard Event, update the status of the last requester to user.
         inputField.textProperty().addListener { _, _, newValue ->
@@ -178,32 +174,6 @@ class InitController {
         inputField.requestFocus()
         inputField.positionCaret(inputField.text.length) // Move caret to the end of the text.
     }
-
-//    Probably I will not use this anymore...
-//    private fun physicalKeyPadOnKeyPress(key: KeyCode) {
-//        when (key) {
-//            KeyCode.DIGIT0 -> NumPad.zeroButtonPressed(lastOperation, inputField)
-//            KeyCode.DIGIT1 -> NumPad.oneButtonPressed(lastOperation, inputField)
-//            KeyCode.DIGIT2 -> NumPad.twoButtonPressed(lastOperation, inputField)
-//            KeyCode.DIGIT3 -> NumPad.threeButtonPressed(lastOperation, inputField)
-//            KeyCode.DIGIT4 -> NumPad.fourButtonPressed(lastOperation, inputField)
-//            KeyCode.DIGIT5 -> NumPad.fiveButtonPressed(lastOperation, inputField)
-//            KeyCode.DIGIT6 -> NumPad.sixButtonPressed(lastOperation, inputField)
-//            KeyCode.DIGIT7 -> NumPad.sevenButtonPressed(lastOperation, inputField)
-//            KeyCode.DIGIT8 -> NumPad.eightButtonPressed(lastOperation, inputField)
-//            KeyCode.DIGIT9 -> NumPad.nineButtonPressed(lastOperation, inputField)
-//            KeyCode.PERIOD -> NumPad.periodButtonPressed(lastOperation, inputField)
-//            KeyCode.PLUS -> NumPad.plusButtonPressed(lastOperation, inputField)
-//            KeyCode.MINUS -> NumPad.minusButtonPressed(lastOperation, inputField)
-//            KeyCode.STAR -> NumPad.multiplyButtonPressed(lastOperation, inputField)
-//            KeyCode.SLASH -> NumPad.divideButtonPressed(lastOperation, inputField)
-//            KeyCode.EQUALS -> NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
-//            KeyCode.BACK_SPACE -> NumPad.eraseButtonPressed(lastOperation, inputField)
-//            KeyCode.ENTER -> NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
-//            KeyCode.CIRCUMFLEX ->  NumPad.exponentialButtonPressed(lastOperation, inputField)
-//            else -> System.err.println("Unknown physical key: $key")
-//        }
-//    }
 
     private fun alertOfNightlyBuild(stage: Stage) {
         val alertDialog = Alert(Alert.AlertType.INFORMATION)
