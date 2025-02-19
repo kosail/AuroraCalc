@@ -192,8 +192,8 @@ class NumPadController {
             inputField.appendText("/")
         }
 
-        fun equalsButtonPressed(lastOperation: LastChangeRequester, inputField: TextField, lastOperationLabel: Label) {
-            if (inputField.text.isBlank()) return
+        fun equalsButtonPressed(lastOperation: LastChangeRequester, inputField: TextField, lastOperationLabel: Label): Boolean {
+            if (inputField.text.isBlank()) return false
 
             if (inputField.text.last() == '%') {
                 inputField.text = inputField.text.dropLast(1)
@@ -207,20 +207,22 @@ class NumPadController {
                 result = ExpressionBuilder(expression).build().evaluate()
             } catch (e: UnknownFunctionOrVariableException) {
                 System.err.println("Unknown function or variable: ${e.message}")
-                return
+                return false
             } catch (e: IllegalArgumentException) {
                 System.err.println("Invalid function or variable: ${e.message}")
-                return
+                return false
             } catch (e: ArithmeticException) {
                 System.err.println("Impossible to compute.\nArithmetic exception: ${e.message}")
                 inputField.clear()
-                return
+                return false
             }
 
             lastOperationLabel.text = expression
             inputField.clear()
             inputField.text = if ((result % 1) != 0.0) "%.2f".format(result) else result.toInt().toString()
             lastOperation.state = LastChangeRequester.Status.USER_MADE
+
+            return true
         }
 
         fun ceButtonPressed(inputField: TextField) { inputField.clear() }
