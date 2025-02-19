@@ -76,6 +76,7 @@ class InitController {
     // Miscellaneous for functionalities
     private lateinit var stage: Stage
     private val lastOperation = LastChangeRequester(LastChangeRequester.Status.SYSTEM_MADE)
+    private val historyController = HistoryController()
 
     @FXML fun initialize() {
         // #######################
@@ -140,7 +141,13 @@ class InitController {
         minusButton.setOnAction { NumPad.minusButtonPressed(lastOperation, inputField); setFocusOnInputField() }
         multiplyButton.setOnAction { NumPad.multiplyButtonPressed(lastOperation, inputField); setFocusOnInputField() }
         divideButton.setOnAction { NumPad.divideButtonPressed(lastOperation, inputField); setFocusOnInputField() }
-        equalsButton.setOnAction { NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel); setFocusOnInputField() }
+        equalsButton.setOnAction {
+            if (NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)) {
+                historyController.addHistoryItem("%s\n%s".format(lastOperationLabel.text, inputField.text))
+            }
+
+            setFocusOnInputField()
+        }
         ceButton.setOnAction { NumPad.ceButtonPressed(inputField); setFocusOnInputField() }
         clearButton.setOnAction { NumPad.clearButtonPressed(inputField, lastOperationLabel); setFocusOnInputField() }
         eraseButton.setOnAction { NumPad.eraseButtonPressed(lastOperation, inputField); setFocusOnInputField() }
@@ -159,11 +166,19 @@ class InitController {
 
         inputField.addEventFilter(KeyEvent.KEY_PRESSED) { event ->
             if (event.code == KeyCode.ENTER) {
-                NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)
+                if (NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)) {
+                    historyController.addHistoryItem("%s\n%s".format(lastOperationLabel.text, inputField.text))
+                }
+
+                setFocusOnInputField()
                 inputField.positionCaret(inputField.text.length)
             }
         }
 
+        // ################################
+        // ## HISTORY BUTTON SECTION ######
+        // ################################
+        historyButton.setOnAction { historyController.show(historyButton) }
     }
 
     fun setStage(stage: Stage) {

@@ -5,3 +5,25 @@
 .mainTitleStyle {
     -fx-text-fill: #fff;
 }
+
+.context-menu {
+    -fx-background-color: #242a43;
+    -fx-text-fill: #f1f1f1;
+    -fx-font-size: 22px;
+    -fx-padding: 5px;
+    -fx-font-family: "Selawik", "Segoe UI";
+}
+
+.menu-item {
+    -fx-background-color: #242a43;
+    -fx-text-fill: #f1f1f1;
+    -fx-padding: 12px;
+}
+
+.menu-item .label {
+    -fx-text-fill: #f1f1f1;
+}
+
+.menu-item:hover {
+    -fx-background-color: rgba(31, 37, 61, 0.65);
+}
