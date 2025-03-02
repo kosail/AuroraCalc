@@ -1,10 +1,6 @@
 package com.korealm
 
 import javafx.animation.TranslateTransition
-import javafx.collections.FXCollections
-import javafx.collections.ListChangeListener
-import javafx.collections.ObservableList
-import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
@@ -15,8 +11,9 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.layout.HBox
-import javafx.scene.layout.VBox
 import javafx.event.EventHandler
+import javafx.scene.input.MouseEvent
+import javafx.scene.layout.StackPane
 import javafx.stage.Stage
 import javafx.util.Duration
 import com.korealm.NumPadController as NumPad
@@ -83,8 +80,8 @@ class InitController {
     @FXML private lateinit var divideButton: Button
 
     // Miscellaneous for functionalities
+    @FXML private lateinit var rootContainer: StackPane
     private lateinit var stage: Stage
-    private lateinit var rootContainer: VBox
     private val lastOperation = LastChangeRequester(LastChangeRequester.Status.SYSTEM_MADE)
     private val historySidebar = HistorySidebar()
 
@@ -93,17 +90,17 @@ class InitController {
         // ## ICONS SECTION ######
         // #######################
         // Section for setting the icons in the title bar buttons
-        val minimizeIcon = Image(javaClass.getResource("icons/minimize.png").toExternalForm(), 24.0, 24.0, true, true)
-        val maximizeIcon = Image(javaClass.getResource("icons/maximize.png").toExternalForm(), 24.0, 24.0, true, true)
-        val closeIcon = Image(javaClass.getResource("icons/close.png").toExternalForm(), 24.0, 24.0, true, true)
+        val minimizeIcon = Image(javaClass.getResource("icons/minimize.png")?.toExternalForm(), 24.0, 24.0, true, true)
+        val maximizeIcon = Image(javaClass.getResource("icons/maximize.png")?.toExternalForm(), 24.0, 24.0, true, true)
+        val closeIcon = Image(javaClass.getResource("icons/close.png")?.toExternalForm(), 24.0, 24.0, true, true)
 
         minimizeButton.graphic = ImageView(minimizeIcon)
         maximizeButton.graphic = ImageView(maximizeIcon)
         closeButton.graphic = ImageView(closeIcon)
 
         // Section for setting the icons in the menu and history buttons
-        val menuIcon = Image(javaClass.getResource("icons/menu.png").toExternalForm(), 24.0, 24.0, true, true)
-        val historyIcon = Image(javaClass.getResource("icons/history.png").toExternalForm(), 24.0, 24.0, true, true)
+        val menuIcon = Image(javaClass.getResource("icons/menu.png")?.toExternalForm(), 24.0, 24.0, true, true)
+        val historyIcon = Image(javaClass.getResource("icons/history.png")?.toExternalForm(), 24.0, 24.0, true, true)
 
         menuButton.graphic = ImageView(menuIcon)
         historyButton.graphic = ImageView(historyIcon)
@@ -178,7 +175,6 @@ class InitController {
         inputField.addEventFilter(KeyEvent.KEY_PRESSED) { event ->
             if (event.code == KeyCode.ENTER) {
                 if (NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)) {
-                    // TODO: Correct this
                     historySidebar.addHistoryItem("%s\n\t= %s".format(lastOperationLabel.text, inputField.text))
                 }
 
@@ -190,18 +186,27 @@ class InitController {
         // ################################
         // ## HISTORY BUTTON SECTION ######
         // ################################
-        // TODO: FIX
         historyButton.setOnAction { toggleHistorySidebar(rootContainer) }
+        // The code below is to be able to close the history sidebar in alternative ways, since it does not have any closing button
+        rootContainer.addEventFilter(KeyEvent.KEY_PRESSED) { event ->
+            if (event.code == KeyCode.ESCAPE && historySidebar.isVisible) {
+                toggleHistorySidebar(rootContainer)
+            }
+        }
+
+        rootContainer.addEventFilter(MouseEvent.MOUSE_PRESSED) { event ->
+            if (historySidebar.isVisible && !historySidebar.boundsInParent.contains(event.x, event.y)) {
+                toggleHistorySidebar(rootContainer)
+            }
+        }
     }
 
     fun lateInitializeSteps() {
         historySidebar.apply {
-            translateXProperty().set(300.0) // Start off-screen
-            prefHeightProperty().bind(rootContainer.heightProperty()) // Bind this sidebar to the height of the parent root
+            translateX = rootContainer.width // Start off-screen
             isVisible = false
             isManaged = false
-            translateX = 300.0 // Start off-screen
-
+            prefHeightProperty().bind(rootContainer.heightProperty()) // Bind this sidebar to the height of the parent root
         }
 
         rootContainer.children.add(historySidebar) // Add this sidebar for once and all
@@ -211,27 +216,23 @@ class InitController {
         this.stage = stage
     }
 
-    fun setRootContainer(rootContainer: VBox) {
-        this.rootContainer = rootContainer
-    }
-
     fun setFocusOnInputField() {
         inputField.requestFocus()
         inputField.positionCaret(inputField.text.length) // Move caret to the end of the text.
     }
 
-    private fun toggleHistorySidebar(rootContainer: VBox) {
+    private fun toggleHistorySidebar(rootContainer: StackPane) {
         if (!historySidebar.isVisible) {
             historySidebar.isVisible = true
             historySidebar.isManaged = true
             val slideIn = TranslateTransition(Duration.millis(300.0), historySidebar)
-            slideIn.fromX = 300.0
-            slideIn.toX = 0.0
+            slideIn.fromX = rootContainer.width
+            slideIn.toX = 100.0
             slideIn.play()
         } else {
             val slideOut = TranslateTransition(Duration.millis(300.0), historySidebar)
-            slideOut.fromX = 0.0
-            slideOut.toX = 300.0
+            slideOut.fromX = 100.0
+            slideOut.toX = rootContainer.width
             slideOut.onFinished = EventHandler {
                 historySidebar.isVisible = false
                 historySidebar.isManaged = false
