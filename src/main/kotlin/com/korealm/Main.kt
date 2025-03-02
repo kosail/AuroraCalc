@@ -10,7 +10,6 @@ import javafx.stage.StageStyle
 
 class Main : Application() {
     override fun start(stage: Stage) {
-        println(javaClass.getResource(""))
         val loader = FXMLLoader(javaClass.getResource("main.fxml"))
         val root: VBox = loader.load()
         val scene = Scene(root)
