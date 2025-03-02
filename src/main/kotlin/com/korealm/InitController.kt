@@ -1,5 +1,10 @@
 package com.korealm
 
+import javafx.animation.TranslateTransition
+import javafx.collections.FXCollections
+import javafx.collections.ListChangeListener
+import javafx.collections.ObservableList
+import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
@@ -10,12 +15,16 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.layout.HBox
+import javafx.scene.layout.VBox
+import javafx.event.EventHandler
 import javafx.stage.Stage
+import javafx.util.Duration
 import com.korealm.NumPadController as NumPad
 
 /* I had no idea on how to instance all these fields in separated files, as Scene Builder asks for one Controller class only.
 * Base on that, I decided to instance all the objects and initialize them here. After completing all, I'll try to separate the logic of each part of the app into their respective file.
 * TODO: Implement the menu and the history button
+*  CURRENTLY WORKING AT: HistorySidebar.kt
 */
 
 class InitController {
@@ -75,8 +84,9 @@ class InitController {
 
     // Miscellaneous for functionalities
     private lateinit var stage: Stage
+    private lateinit var rootContainer: VBox
     private val lastOperation = LastChangeRequester(LastChangeRequester.Status.SYSTEM_MADE)
-    private val historyController = HistoryController()
+    private val historySidebar = HistorySidebar()
 
     @FXML fun initialize() {
         // #######################
@@ -120,7 +130,7 @@ class InitController {
 
         // This as a reminder to myself of implement this in the future.
         menuButton.setOnAction { alertOfNightlyBuild(stage) }
-        historyButton.setOnAction { alertOfNightlyBuild(stage) }
+//        historyButton.setOnAction { alertOfNightlyBuild(stage) }
 
         // ###################################
         // ## BUTTONS LISTENERS SECTION ######
@@ -143,7 +153,8 @@ class InitController {
         divideButton.setOnAction { NumPad.divideButtonPressed(lastOperation, inputField); setFocusOnInputField() }
         equalsButton.setOnAction {
             if (NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)) {
-                historyController.addHistoryItem("%s\n%s".format(lastOperationLabel.text, inputField.text))
+                // TODO: Correct this to add elements to the history
+                historySidebar.addHistoryItem("%s\n%s".format(lastOperationLabel.text, inputField.text))
             }
 
             setFocusOnInputField()
@@ -167,7 +178,8 @@ class InitController {
         inputField.addEventFilter(KeyEvent.KEY_PRESSED) { event ->
             if (event.code == KeyCode.ENTER) {
                 if (NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)) {
-                    historyController.addHistoryItem("%s\n%s".format(lastOperationLabel.text, inputField.text))
+                    // TODO: Correct this
+                    historySidebar.addHistoryItem("%s\n\t=%s".format(lastOperationLabel.text, inputField.text))
                 }
 
                 setFocusOnInputField()
@@ -178,16 +190,45 @@ class InitController {
         // ################################
         // ## HISTORY BUTTON SECTION ######
         // ################################
-        historyButton.setOnAction { historyController.show(historyButton) }
+        // TODO: FIX
+        historyButton.setOnAction { toggleHistorySidebar(rootContainer) }
+    }
+
+    fun lateInitializeSteps() {
+        historySidebar.apply {
+            translateXProperty().set(300.0) // Start off-screen
+            prefHeightProperty().bind(rootContainer.heightProperty()) // Bind this sidebar to the height of the parent root
+//            stylesheets.add(javaClass.getResource("styles/sidebar.css")?.toExternalForm() ?: "")
+        }
+        rootContainer.children.add(historySidebar) // Add this sidebar for once and all
     }
 
     fun setStage(stage: Stage) {
         this.stage = stage
     }
 
+    fun setRootContainer(rootContainer: VBox) {
+        this.rootContainer = rootContainer
+    }
+
     fun setFocusOnInputField() {
         inputField.requestFocus()
         inputField.positionCaret(inputField.text.length) // Move caret to the end of the text.
+    }
+
+    private fun toggleHistorySidebar(rootContainer: VBox) {
+        if (!rootContainer.children.contains(historySidebar)) {
+            rootContainer.children.add(historySidebar)
+            val slideIn = TranslateTransition(Duration.millis(300.0), historySidebar)
+            slideIn.toX = 0.0
+            slideIn.play()
+        } else {
+            val slideOut = TranslateTransition(Duration.millis(300.0), historySidebar)
+            slideOut.toX = 300.0
+            slideOut.onFinished =
+                EventHandler { rootContainer.children.remove(historySidebar) }
+            slideOut.play()
+        }
     }
 
     private fun alertOfNightlyBuild(stage: Stage) {
