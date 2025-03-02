@@ -17,6 +17,8 @@ class Main : Application() {
 
         val controller: InitController = loader.getController()
         controller.setStage(stage)
+        controller.setRootContainer(root)
+        controller.lateInitializeSteps()
 
         // Setting the title and icon of the app even tho the frame/title bar will be disabled and manually implemented
         stage.title = "Calculator"
