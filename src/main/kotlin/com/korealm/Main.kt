@@ -4,19 +4,18 @@ import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.image.Image
-import javafx.scene.layout.VBox
+import javafx.scene.layout.StackPane
 import javafx.stage.Stage
 import javafx.stage.StageStyle
 
 class Main : Application() {
     override fun start(stage: Stage) {
         val loader = FXMLLoader(javaClass.getResource("main.fxml"))
-        val root: VBox = loader.load()
+        val root: StackPane = loader.load()
         val scene = Scene(root)
 
         val controller: InitController = loader.getController()
         controller.setStage(stage)
-        controller.setRootContainer(root)
         controller.lateInitializeSteps()
 
         // Setting the title and icon of the app even tho the frame/title bar will be disabled and manually implemented

@@ -11,226 +11,229 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="700.0" maxWidth="450.0" minHeight="700.0" minWidth="450.0" prefHeight="700.0" prefWidth="450.0" styleClass="vboxPane" stylesheets="@styles/pane.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.korealm.InitController">
-   <children>
-      <HBox fx:id="taskBarHBox" prefHeight="39.0" prefWidth="450.0">
-         <children>
-            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@icons/calc.png" />
-               </image>
-               <HBox.margin>
-                  <Insets left="10.0" top="5.0" />
-               </HBox.margin>
-            </ImageView>
-            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="282.0" styleClass="mainTitleStyle" text="Calculator" HBox.hgrow="ALWAYS">
-               <padding>
-                  <Insets left="25.0" />
-               </padding>
-               <font>
-                  <Font name="Selawik" size="20.0" />
-               </font>
-            </Label>
-            <Button fx:id="minimizeButton" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="38.0" prefWidth="49.0" styleClass="transparentButton" stylesheets="@styles/buttons.css" text="1" HBox.hgrow="NEVER">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="maximizeButton" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="38.0" prefWidth="49.0" styleClass="transparentButton" stylesheets="@styles/buttons.css" text="2" HBox.hgrow="NEVER">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="closeButton" contentDisplay="GRAPHIC_ONLY" graphicTextGap="3.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="38.0" prefWidth="49.0" styleClass="transparentButton" stylesheets="@styles/buttons.css" text="3" HBox.hgrow="NEVER">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Button>
-         </children>
-         <padding>
-            <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
-         </padding>
-         <VBox.margin>
-            <Insets bottom="5.0" right="5.0" top="5.0" />
-         </VBox.margin>
-      </HBox>
-      <HBox prefHeight="39.0" prefWidth="450.0" VBox.vgrow="NEVER">
-         <children>
-            <Button fx:id="menuButton" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="41.0" prefWidth="60.0" styleClass="transparentButton" stylesheets="@styles/buttons.css" text="📶" HBox.hgrow="NEVER" />
-            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="282.0" styleClass="mainTitleStyle" text="Standard" HBox.hgrow="ALWAYS">
-               <font>
-                  <Font name="Selawik Semibold" size="28.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="30.0" top="5.0" />
-               </HBox.margin>
-            </Label>
-            <Button fx:id="historyButton" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="41.0" prefWidth="52.0" styleClass="transparentButton" stylesheets="@styles/buttons.css" text="🕛" HBox.hgrow="NEVER" />
-         </children>
-         <padding>
-            <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
-         </padding>
-      </HBox>
-      <Label fx:id="lastOperationLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="450.0" styleClass="lastOperationLabelStyles" stylesheets="@styles/fields.css" textAlignment="RIGHT" wrapText="true" VBox.vgrow="ALWAYS">
-         <font>
-            <Font name="Selawik" size="24.0" />
-         </font>
-         <VBox.margin>
-            <Insets left="20.0" right="20.0" />
-         </VBox.margin></Label>
-      <TextField fx:id="inputField" alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="90.0" prefWidth="450.0" promptText="0" styleClass="text-area" stylesheets="@styles/fields.css">
-         <cursor>
-            <Cursor fx:constant="TEXT" />
-         </cursor>
-         <font>
-            <Font name="Selawik" size="40.0" />
-         </font>
-         <VBox.margin>
-            <Insets left="15.0" right="15.0" />
-         </VBox.margin></TextField>
-      <GridPane alignment="CENTER" hgap="5.0" prefHeight="347.0" prefWidth="450.0" vgap="5.0" VBox.vgrow="ALWAYS">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="105.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Button fx:id="plusMinusButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="+/-" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="sevenButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="7" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="exponentialButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="𝑥²" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="fractionButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="⅟𝑥" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="ceButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="CE" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="24.0" />
-               </font>
-            </Button>
-            <Button fx:id="divideButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="÷" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="eraseButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="⌫" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="sqrtButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="√𝑥" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="clearButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="C" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="25.0" />
-               </font>
-            </Button>
-            <Button fx:id="oneButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="1" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="fourButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="4" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="eightButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="8" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="zeroButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="twoButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="2" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="fiveButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="5" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="threeButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="3" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="sixButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="6" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="nineButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="9" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="plusButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="+" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="minusButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="–" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="multiplyButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="×" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="periodButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="." textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="equalsButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="=" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-            <Button fx:id="percentageButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="\%" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Selawik" size="28.0" />
-               </font>
-            </Button>
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
-         </padding>
-      </GridPane>
-   </children>
-</VBox>
+<StackPane fx:id="rootContainer" minHeight="700.0" minWidth="450.0" prefHeight="700.0" prefWidth="450.0" stylesheets="@styles/pane.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.korealm.InitController">
+   <VBox alignment="TOP_CENTER" minHeight="700.0" minWidth="450.0" prefHeight="700.0" prefWidth="450.0" styleClass="vboxPane">
+      <children>
+         <HBox fx:id="taskBarHBox" prefHeight="39.0" prefWidth="450.0">
+            <children>
+               <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@icons/calc.png" />
+                  </image>
+                  <HBox.margin>
+                     <Insets left="10.0" top="5.0" />
+                  </HBox.margin>
+               </ImageView>
+               <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="282.0" styleClass="mainTitleStyle" text="Calculator" HBox.hgrow="ALWAYS">
+                  <padding>
+                     <Insets left="25.0" />
+                  </padding>
+                  <font>
+                     <Font name="Selawik" size="20.0" />
+                  </font>
+               </Label>
+               <Button fx:id="minimizeButton" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="38.0" prefWidth="49.0" styleClass="transparentButton" stylesheets="@styles/buttons.css" text="1" HBox.hgrow="NEVER">
+                  <HBox.margin>
+                     <Insets right="10.0" />
+                  </HBox.margin>
+               </Button>
+               <Button fx:id="maximizeButton" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="38.0" prefWidth="49.0" styleClass="transparentButton" stylesheets="@styles/buttons.css" text="2" HBox.hgrow="NEVER">
+                  <HBox.margin>
+                     <Insets right="10.0" />
+                  </HBox.margin>
+               </Button>
+               <Button fx:id="closeButton" contentDisplay="GRAPHIC_ONLY" graphicTextGap="3.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="38.0" prefWidth="49.0" styleClass="transparentButton" stylesheets="@styles/buttons.css" text="3" HBox.hgrow="NEVER">
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+               </Button>
+            </children>
+            <padding>
+               <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+            </padding>
+            <VBox.margin>
+               <Insets bottom="5.0" right="5.0" top="5.0" />
+            </VBox.margin>
+         </HBox>
+         <HBox prefHeight="39.0" prefWidth="450.0" VBox.vgrow="NEVER">
+            <children>
+               <Button fx:id="menuButton" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="41.0" prefWidth="60.0" styleClass="transparentButton" stylesheets="@styles/buttons.css" text="📶" HBox.hgrow="NEVER" />
+               <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="282.0" styleClass="mainTitleStyle" text="Standard" HBox.hgrow="ALWAYS">
+                  <font>
+                     <Font name="Selawik Semibold" size="28.0" />
+                  </font>
+                  <HBox.margin>
+                     <Insets left="30.0" top="5.0" />
+                  </HBox.margin>
+               </Label>
+               <Button fx:id="historyButton" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="41.0" prefWidth="52.0" styleClass="transparentButton" stylesheets="@styles/buttons.css" text="🕛" HBox.hgrow="NEVER" />
+            </children>
+            <padding>
+               <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+            </padding>
+         </HBox>
+         <Label fx:id="lastOperationLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="450.0" styleClass="lastOperationLabelStyles" stylesheets="@styles/fields.css" textAlignment="RIGHT" wrapText="true" VBox.vgrow="ALWAYS">
+            <font>
+               <Font name="Selawik" size="24.0" />
+            </font>
+            <VBox.margin>
+               <Insets left="20.0" right="20.0" />
+            </VBox.margin></Label>
+         <TextField fx:id="inputField" alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="90.0" prefWidth="450.0" promptText="0" styleClass="text-area" stylesheets="@styles/fields.css">
+            <cursor>
+               <Cursor fx:constant="TEXT" />
+            </cursor>
+            <font>
+               <Font name="Selawik" size="40.0" />
+            </font>
+            <VBox.margin>
+               <Insets left="15.0" right="15.0" />
+            </VBox.margin></TextField>
+         <GridPane alignment="CENTER" hgap="5.0" prefHeight="347.0" prefWidth="450.0" vgap="5.0" VBox.vgrow="ALWAYS">
+           <columnConstraints>
+             <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" />
+             <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="105.0" />
+           </columnConstraints>
+           <rowConstraints>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+           </rowConstraints>
+            <children>
+               <Button fx:id="plusMinusButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="+/-" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="sevenButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="7" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="exponentialButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="𝑥²" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="fractionButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="⅟𝑥" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="ceButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="CE" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="24.0" />
+                  </font>
+               </Button>
+               <Button fx:id="divideButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="÷" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="eraseButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="⌫" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="18.0" />
+                  </font>
+               </Button>
+               <Button fx:id="sqrtButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="√𝑥" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="clearButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="C" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="25.0" />
+                  </font>
+               </Button>
+               <Button fx:id="oneButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="1" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="fourButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="4" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="eightButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="8" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="zeroButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="twoButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="2" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="fiveButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="5" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="threeButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="3" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="sixButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="6" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="nineButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="9" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="plusButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="+" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="minusButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="–" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="multiplyButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="×" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="periodButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="numberButtonStyle" stylesheets="@styles/buttons.css" text="." textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="equalsButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="=" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+               <Button fx:id="percentageButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="functionButtonStyle" stylesheets="@styles/buttons.css" text="\%" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <font>
+                     <Font name="Selawik" size="28.0" />
+                  </font>
+               </Button>
+            </children>
+            <padding>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+            </padding>
+         </GridPane>
+      </children>
+   </VBox>
+</StackPane>
