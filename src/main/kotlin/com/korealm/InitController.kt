@@ -154,7 +154,7 @@ class InitController {
         equalsButton.setOnAction {
             if (NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)) {
                 // TODO: Correct this to add elements to the history
-                historySidebar.addHistoryItem("%s\n%s".format(lastOperationLabel.text, inputField.text))
+                historySidebar.addHistoryItem("%s\n\t= %s".format(lastOperationLabel.text, inputField.text))
             }
 
             setFocusOnInputField()
@@ -179,7 +179,7 @@ class InitController {
             if (event.code == KeyCode.ENTER) {
                 if (NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)) {
                     // TODO: Correct this
-                    historySidebar.addHistoryItem("%s\n\t=%s".format(lastOperationLabel.text, inputField.text))
+                    historySidebar.addHistoryItem("%s\n\t= %s".format(lastOperationLabel.text, inputField.text))
                 }
 
                 setFocusOnInputField()
@@ -198,8 +198,12 @@ class InitController {
         historySidebar.apply {
             translateXProperty().set(300.0) // Start off-screen
             prefHeightProperty().bind(rootContainer.heightProperty()) // Bind this sidebar to the height of the parent root
-//            stylesheets.add(javaClass.getResource("styles/sidebar.css")?.toExternalForm() ?: "")
+            isVisible = false
+            isManaged = false
+            translateX = 300.0 // Start off-screen
+
         }
+
         rootContainer.children.add(historySidebar) // Add this sidebar for once and all
     }
 
@@ -217,19 +221,26 @@ class InitController {
     }
 
     private fun toggleHistorySidebar(rootContainer: VBox) {
-        if (!rootContainer.children.contains(historySidebar)) {
-            rootContainer.children.add(historySidebar)
+        if (!historySidebar.isVisible) {
+            historySidebar.isVisible = true
+            historySidebar.isManaged = true
             val slideIn = TranslateTransition(Duration.millis(300.0), historySidebar)
+            slideIn.fromX = 300.0
             slideIn.toX = 0.0
             slideIn.play()
         } else {
             val slideOut = TranslateTransition(Duration.millis(300.0), historySidebar)
+            slideOut.fromX = 0.0
             slideOut.toX = 300.0
-            slideOut.onFinished =
-                EventHandler { rootContainer.children.remove(historySidebar) }
+            slideOut.onFinished = EventHandler {
+                historySidebar.isVisible = false
+                historySidebar.isManaged = false
+            }
             slideOut.play()
         }
     }
+
+
 
     private fun alertOfNightlyBuild(stage: Stage) {
         val alertDialog = Alert(Alert.AlertType.INFORMATION)

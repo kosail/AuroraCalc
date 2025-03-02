@@ -1,3 +1,12 @@
+@font-face {
+    -fx-font-family: "Selawik";
+    -fx-src: url("/com/korealm/fonts/selawk.ttf");
+}
+
+.root {
+    -fx-font-family: "Selawik", "Segoe UI";
+}
+
 .vboxPane {
     -fx-background-color: #1a1f33;
 }
