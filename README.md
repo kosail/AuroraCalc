@@ -8,7 +8,7 @@ AuroraCalc is a Windows 11-inspired calculator built with **Kotlin + JavaFX**, a
 
 ## 🚀 Current Status
 
-- **Development Stage:** Mid-Development. The calculator works, but the history and menu functions are not yet implemented (currently working on this).
+- **Development Stage:** Mid-Development. Yet the calculator works, the history and menu functions are not implemented. The history works poorly (tho it works and that awesome), thus the history usage is discouraged by the moment.
 - **Functionality:** All operations are possible now. App buttons and keyboard as input work.
 - **Usability:** At this stage, the calculator is functional developers and for end users (although it is limited to be a simple calculator).
 - **Known bugs:** When using the buttons in the app all works fine (for instance, overwriting ^6 for ⁶ which is more eye-candy), but when using the keyboard as input... oh boi, I split open my head trying to remove the default behavior from the TextField when receiving numbers from 0-9 and handle it myself. It was... hard. Let's say keyboard input is handled well, but is not as polished as I planned it to be.
