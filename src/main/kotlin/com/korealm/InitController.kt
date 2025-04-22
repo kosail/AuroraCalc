@@ -150,7 +150,6 @@ class InitController {
         divideButton.setOnAction { NumPad.divideButtonPressed(lastOperation, inputField); setFocusOnInputField() }
         equalsButton.setOnAction {
             if (NumPad.equalsButtonPressed(lastOperation, inputField, lastOperationLabel)) {
-                // TODO: Correct this to add elements to the history
                 historySidebar.addHistoryItem("%s\n\t= %s".format(lastOperationLabel.text, inputField.text))
             }
 
@@ -207,6 +206,14 @@ class InitController {
             isVisible = false
             isManaged = false
             prefHeightProperty().bind(rootContainer.heightProperty()) // Bind this sidebar to the height of the parent root
+
+            // Handle clicks on history items
+            onHistoryItemClick = { result ->
+                inputField.text = result.second
+                lastOperationLabel.text = result.first
+                toggleHistorySidebar(rootContainer) // Close sidebar after selecting
+                setFocusOnInputField()
+            }
         }
 
         rootContainer.children.add(historySidebar) // Add this sidebar for once and all
@@ -238,6 +245,7 @@ class InitController {
                 historySidebar.isManaged = false
             }
             slideOut.play()
+            setFocusOnInputField()
         }
     }
 
