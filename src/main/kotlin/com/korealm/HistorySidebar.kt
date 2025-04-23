@@ -11,7 +11,6 @@ import javafx.scene.input.MouseEvent
 
 /*
 * TODO: Current status of the History Sidebar
-* CURRENTLY WORKING AT: The label's history element is not showing now... man
 */
 
 class HistorySidebar : VBox() {
@@ -19,13 +18,12 @@ class HistorySidebar : VBox() {
 
     init {
         // Set up the VBox properties
-        alignment = Pos.TOP_RIGHT
+        alignment = Pos.TOP_LEFT
         padding = Insets(3.0)
         minHeight = 700.0
         minWidth = 200.0
         prefHeight = 700.0
         prefWidth = 200.0
-//        maxWidth = 250.0
         isVisible = false
         styleClass.add("historySidebar")
         stylesheets.add(javaClass.getResource("/com/korealm/styles/sidebar.css")?.toExternalForm())
@@ -38,13 +36,13 @@ class HistorySidebar : VBox() {
                         val label = Label().apply {
                             text = item
                             styleClass.add("historyItem")
-                            prefWidthProperty().bind(this@HistorySidebar.prefWidthProperty())
-                            maxWidth = 250.0 // test
-//                            maxWidthProperty().bind(this@HistorySidebar.maxWidthProperty())
+                            minWidth = 4096.0 // This is a known bug. The label does not fill the entire VBox and after burning my eyebrows of frowning, I found out that this field is the problem. It does not work when it has Double.MAX_VALUE, so I decided to make a dirty fix by setting it to a big number. 4096 is the resolution of 4K.
+                            maxWidth = Double.MAX_VALUE
+                            prefWidth = this@HistorySidebar.prefWidth
+                            maxWidthProperty().bind(this@HistorySidebar.maxWidthProperty().subtract(6.0))
                             isWrapText = true
-                            alignment = Pos.CENTER_RIGHT
 
-                            // TODO: When the element is clicked, then sets the inputField text to this label text
+                            // When the element is clicked, then sets the inputField text to this label text
                             addEventFilter(MouseEvent.MOUSE_CLICKED) { event ->
                                 val result: Pair<String, String> = extractResultFromHistory(text)
                                 onHistoryItemClick?.invoke(result)
@@ -61,10 +59,10 @@ class HistorySidebar : VBox() {
     fun addHistoryItem(item: String) = items.add(item)
 
     private fun extractResultFromHistory(historyText: String): Pair<String,String> {
-        return Pair<String,String>(
+        return Pair(
             first = historyText.substringBefore("=".trim()),
             second = historyText.substringAfter("=").trim()
-        );
+        )
     }
 
     var onHistoryItemClick: ((Pair<String,String>) -> Unit)? = null
