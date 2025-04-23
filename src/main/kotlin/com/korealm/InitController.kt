@@ -125,7 +125,7 @@ class InitController {
             stage.y = event.screenY - windowYOffset
         }
 
-        // This as a reminder to myself of implement this in the future.
+        // This as a reminder to myself to implement this in the future.
         menuButton.setOnAction { alertOfNightlyBuild(stage) }
 //        historyButton.setOnAction { alertOfNightlyBuild(stage) }
 
@@ -164,7 +164,7 @@ class InitController {
         percentageButton.setOnAction { NumPad.percentageButtonPressed(lastOperation, inputField); setFocusOnInputField() }
         plusMinusButton.setOnAction { NumPad.plusMinusButtonPressed(lastOperation, inputField); setFocusOnInputField() }
 
-        // Whenever the TextField handles a Keyboard Event, update the status of the last requester to user.
+        // Whenever the TextField handles a Keyboard Event, update the status of the last requester to user-made.
         inputField.textProperty().addListener { _, _, newValue ->
             if (newValue.isNotEmpty()) {
                 lastOperation.state = LastChangeRequester.Status.USER_MADE
@@ -211,7 +211,7 @@ class InitController {
             onHistoryItemClick = { result ->
                 inputField.text = result.second
                 lastOperationLabel.text = result.first
-                toggleHistorySidebar(rootContainer) // Close sidebar after selecting
+                toggleHistorySidebar(rootContainer) // Close the sidebar after selecting
                 setFocusOnInputField()
             }
         }
@@ -225,7 +225,7 @@ class InitController {
 
     fun setFocusOnInputField() {
         inputField.requestFocus()
-        inputField.positionCaret(inputField.text.length) // Move caret to the end of the text.
+        inputField.positionCaret(inputField.text.length) // Move the caret to the end of the text.
     }
 
     private fun toggleHistorySidebar(rootContainer: StackPane) {
