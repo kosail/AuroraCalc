@@ -130,3 +130,56 @@
     -fx-background-color: #33384d;
     -fx-cursor: hand;
 }
+
+
+/*********************/
+/**** ABOUT D APP ****/
+/*********************/
+.about-dialog {
+    -fx-background-color: #2C3145;
+    -fx-border-color: #3e445c;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 0);
+}
+
+.about-dialog .button-bar .container {
+    -fx-background-color: transparent;
+}
+
+.about-dialog .about-name {
+    -fx-font-family: "Selawik Semibold";
+    -fx-font-size: 24px;
+    -fx-text-fill: #f1f1f1;
+}
+
+.about-dialog .about-description {
+    -fx-font-family: "Selawik";
+    -fx-font-size: 16px;
+    -fx-text-fill: #a1a1a1;
+    -fx-line-spacing: 5px;
+}
+
+.about-dialog .about-app-info {
+    -fx-font-family: "Selawik Light";
+    -fx-font-size: 14px;
+    -fx-text-fill: #7a7a7a;
+    -fx-padding: 15 0 0 0;
+}
+
+/* Remove default dialog icon */
+.about-dialog .alert > .dialog-pane > .content.label {
+    -fx-padding: 0;
+    -fx-graphic: null;
+}
+
+/* Style the close button */
+.about-dialog .button {
+    -fx-background-color: #353A4E;
+    -fx-text-fill: #f1f1f1;
+    -fx-font-family: "Selawik";
+    -fx-padding: 5 15 5 15;
+}
+
+.about-dialog .button:hover {
+    -fx-background-color: #3e445c;
+}

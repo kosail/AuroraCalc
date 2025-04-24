@@ -8,13 +8,13 @@ AuroraCalc is a Windows 11-inspired calculator built with **Kotlin + JavaFX**, a
 
 ## 🚀 Current Status
 
-- **Development Stage:** Mid-Development. The GUI is fully functional with one exception: the menu sidebar. Even though it opens up and you are able to change the theme between dark and light mode, it has a bug were it does not display entirely. I'm working on that.
+- **Development Stage:** Mid-Development. The GUI is fully functional.
 
-- **Functionality:** All operations are possible. App buttons and keyboard as input work. Due the powerful library this calculator uses beneath (exp4j) it is capable of doing cientific calculations. However, they are not yet implemented and they will be not until I figure out how to make the menu work well. No menu = no chance to change modes, unfortunately.
+- **Functionality:** All operations are possible. App buttons and keyboard as input work. Due to the powerful library this calculator uses beneath (exp4j) it is capable of doing scientific calculations. However, the GUI for those functions are not yet implemented. Still, you can manually type functions like sin, cos, log10 and it will work as expected. Again, this is all thanks to the wonderful exp4j library, not myself.
 
-- **Usability:** At this stage, the calculator is functional for developers and for end users (although it is limited to be a simple calculator) due to the things I already mentioned.
+- **Usability:** At this stage, the calculator is totally functional for developers and for end users (although it is limited to be a simple calculator) due to the things I already mentioned.
 
-- **Known bugs:** When using the buttons in the app all works fine (for instance, overwriting ^6 for ⁶ which is more eye-candy), but when using the keyboard as input... oh boi, I burned down my head trying to remove the default behavior from the TextField when receiving numbers from 0-9 and handle it myself. It was... hard. I got to the resolution that I would need to rethink the entire design of the GUI, changing the listeners to the main StackPane instead of the VBox containing all of the elements, and maybe changing the TextField for a Label which gives me more fine control. But that would be insanely difficult for me at this point, so I will just go ahead. Let's say keyboard input is handled well, but is not as polished as I planned it to be.
+- **Known bugs:** When using the buttons in the app all works fine (for instance, overwriting ^6 for ⁶ which is more eye-candy), but when using the keyboard as input... oh boi, I burned down my head trying to remove the default behavior from the TextField when receiving numbers from 0-9 and handle it myself. It was... hard. I got to the resolution that I would need to rethink the entire design of the GUI, changing the listeners to the main StackPane instead of the VBox containing all the elements, and maybe changing the TextField for a Label which gives me more fine control. But that would be insanely difficult for me at this point, so I will just go ahead. Let's say keyboard input is handled well, but is not as polished as I planned it to be.
 
 ## 🎯 Features (Planned)
 
@@ -65,10 +65,10 @@ AuroraCalc/
 3. Run the `Main.kt` file to launch the application, if using IntelliJ, or run it with maven from the terminal or your preferred IDE.
 
 ## 📌 Roadmap
-- [-] Finalize UI elements and layout
+- [X] Finalize UI elements and layout
 - [X] Implement core calculator logic
 - [ ] Add scientific calculator functions
-- [-] Enhance UI with animations and better responsiveness
+- [X] Enhance UI with animations and better responsiveness
 - [ ] Improve keyboard accessibility
 - [ ] Optimize performance
 

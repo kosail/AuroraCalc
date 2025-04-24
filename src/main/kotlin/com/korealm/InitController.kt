@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.StackPane
 import javafx.stage.Stage
 import javafx.util.Duration
+import java.io.InputStream
 import com.korealm.NumPadController as NumPad
 
 /* I had no idea on how to instance all these fields in separated files, as Scene Builder asks for one Controller class only.
@@ -286,7 +287,7 @@ class InitController {
 
     private fun toggleDarkMode() {
         theme = if (theme == "dark") "light" else "dark"
-        val css = javaClass.getResource("/com/korealm/styles/$theme-theme.css")?.toExternalForm()
+        val css = javaClass.getResource("styles/$theme-theme.css")?.toExternalForm()
 
         listOf(rootContainer, gridPaneNumPad, historySidebar, menuSidebar).forEach {
             it.stylesheets.clear()
@@ -316,14 +317,23 @@ class InitController {
     }
 
     private fun showAboutPopup() {
-        // TODO: Later on style this window
-        val alert = Alert(Alert.AlertType.INFORMATION).apply {
-            title = "Aurora Calculator"
-            headerText = "A simple, sleek and modern calculator"
-            contentText = "Created by kosail, in the korealm.\nVersion 1.0 Alpha"
-            initOwner(stage)
-        }
-        alert.show()
-        toggleMenuSidebar(rootContainer) // Close after selection
+        /* I'm handling the input stream to the AboutDialog class from here because for some reason that I really can't understand, the program is able to get the image from here, but not from the constructor of the AboutDialog class.
+        * No matter what I do, it just does not work.
+        * TODO: Search wth is happening there. Is it related to the modules and permissions system (module-info.java)?
+        *  It doesn't make sense. I already tried adding "opens com.korealm.images to javafx.graphics" to module-info.java but it doesn't work at all.
+        *
+        *  Pdt: I really hate NullPointerExceptions from JavaFX all around in Kotlin, because that's the way in which JavaFX was built. And on top of it, JavaFX traces are not that intuitive. Born to $$$$ forced to debug weird NullPointerExceptions.
+        */
+        val imagePath: InputStream = javaClass.getResourceAsStream("images/me.png")
+        val aboutDialog = AboutDialog(stage, imagePath)
+
+        // The custom CSS of the dialog. It was not injected in the class init, but here
+        theme = if (theme == "dark") "dark" else "light"
+        aboutDialog.dialogPane.stylesheets.add(
+            javaClass.getResource("styles/$theme-theme.css")?.toExternalForm()
+        )
+
+        toggleMenuSidebar(rootContainer) // Close the menu before showing the popup
+        aboutDialog.showAndWait()
     }
 }
