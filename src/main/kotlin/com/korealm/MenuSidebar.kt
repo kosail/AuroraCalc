@@ -5,16 +5,16 @@ import javafx.geometry.Pos
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
-import javafx.scene.input.MouseEvent
 
 class MenuSidebar : VBox() {
     var onDarkModeToggle: (() -> Unit)? = null
     var onAboutClick: (() -> Unit)? = null
+    private lateinit var themeChangerButton: Button
 
     init {
         // Set up the VBox properties (same as history sidebar)
-        alignment = Pos.TOP_LEFT
-        padding = Insets(3.0)
+        alignment = Pos.TOP_RIGHT
+        padding = Insets(15.0)
         minHeight = 700.0
         minWidth = 200.0
         prefHeight = 700.0
@@ -24,12 +24,13 @@ class MenuSidebar : VBox() {
         stylesheets.add(javaClass.getResource("/com/korealm/styles/dark-theme.css")?.toExternalForm())
 
         // Menu Title
-        val title = Label("Menu").apply {
+        val title = Label("Aurora Calculator").apply {
             styleClass.add("menuTitle")
+            padding = Insets(0.0, 0.0, 15.0, 15.0)
         }
 
         // Dark Mode Toggle Button
-        val darkModeButton = Button("Dark Mode Toggle").apply {
+        themeChangerButton = Button("Light mode").apply {
             styleClass.add("menuButton")
             setOnAction { onDarkModeToggle?.invoke() }
         }
@@ -40,6 +41,14 @@ class MenuSidebar : VBox() {
             setOnAction { onAboutClick?.invoke() }
         }
 
-        children.addAll(title, darkModeButton, aboutButton)
+        listOf(themeChangerButton, aboutButton).forEach {
+            setMargin(it, Insets(0.0, 0.0, 10.0, 140.0))
+        }
+
+        children.addAll(title, themeChangerButton, aboutButton)
+    }
+
+    fun updateThemeText(theme: String) {
+        themeChangerButton.text = if (theme == "light") "Dark Mode" else "Light Mode"
     }
 }

@@ -269,7 +269,7 @@ class InitController {
             menuSidebar.isManaged = true
             val slideIn = TranslateTransition(Duration.millis(300.0), menuSidebar)
             slideIn.fromX = -menuSidebar.prefWidth // Start from left off-screen
-            slideIn.toX = menuSidebar.translateX * 0.7 // Slide in to left edge
+            slideIn.toX = menuSidebar.translateX * 0.8 // Slide in to left edge
             slideIn.play()
         } else {
             val slideOut = TranslateTransition(Duration.millis(300.0), menuSidebar)
@@ -293,6 +293,7 @@ class InitController {
             it.stylesheets.add(css)
         }
 
+        menuSidebar.updateThemeText(theme)
         updateIconTheme(theme)
         toggleMenuSidebar(rootContainer) // Close after selection
     }
