@@ -130,3 +130,48 @@
     -fx-background-color: #E0E0E0;
     -fx-cursor: hand;
 }
+
+/*********************/
+/**** ABOUT D APP ****/
+/*********************/
+.about-dialog {
+    -fx-background-color: #F3F3F3;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 0);
+}
+
+.about-dialog .button-bar .container {
+    -fx-background-color: transparent;
+}
+
+.about-dialog .about-name {
+    -fx-font-family: "Selawik Semibold";
+    -fx-font-size: 24px;
+    -fx-text-fill: #020202;
+}
+
+.about-dialog .about-description {
+    -fx-font-family: "Selawik";
+    -fx-font-size: 16px;
+    -fx-text-fill: #666666;
+    -fx-line-spacing: 5px;
+}
+
+.about-dialog .about-app-info {
+    -fx-font-family: "Selawik Light";
+    -fx-font-size: 14px;
+    -fx-text-fill: #999999;
+    -fx-padding: 15 0 0 0;
+}
+
+.about-dialog .button {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #020202;
+    -fx-font-family: "Selawik";
+    -fx-padding: 5 15 5 15;
+}
+
+.about-dialog .button:hover {
+    -fx-background-color: #E8E8E8;
+}
