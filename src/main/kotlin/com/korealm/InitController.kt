@@ -13,6 +13,7 @@ import javafx.scene.input.KeyEvent
 import javafx.scene.layout.HBox
 import javafx.event.EventHandler
 import javafx.scene.input.MouseEvent
+import javafx.scene.layout.GridPane
 import javafx.scene.layout.StackPane
 import javafx.stage.Stage
 import javafx.util.Duration
@@ -83,28 +84,16 @@ class InitController {
     @FXML private lateinit var rootContainer: StackPane
     private lateinit var stage: Stage
     private val lastOperation = LastChangeRequester(LastChangeRequester.Status.SYSTEM_MADE)
+
     private val historySidebar = HistorySidebar()
+    private val menuSidebar = MenuSidebar()
+
+    private var theme = "dark" // Default to dark mode
+    @FXML private lateinit var gridPaneNumPad: GridPane
 
     @FXML fun initialize() {
-        // #######################
-        // ## ICONS SECTION ######
-        // #######################
-        // Section for setting the icons in the title bar buttons
-        val minimizeIcon = Image(javaClass.getResource("icons/minimize.png")?.toExternalForm(), 24.0, 24.0, true, true)
-        val maximizeIcon = Image(javaClass.getResource("icons/maximize.png")?.toExternalForm(), 24.0, 24.0, true, true)
-        val closeIcon = Image(javaClass.getResource("icons/close.png")?.toExternalForm(), 24.0, 24.0, true, true)
-
-        minimizeButton.graphic = ImageView(minimizeIcon)
-        maximizeButton.graphic = ImageView(maximizeIcon)
-        closeButton.graphic = ImageView(closeIcon)
-
-        // Section for setting the icons in the menu and history buttons
-        val menuIcon = Image(javaClass.getResource("icons/menu.png")?.toExternalForm(), 24.0, 24.0, true, true)
-        val historyIcon = Image(javaClass.getResource("icons/history.png")?.toExternalForm(), 24.0, 24.0, true, true)
-
-        menuButton.graphic = ImageView(menuIcon)
-        historyButton.graphic = ImageView(historyIcon)
-
+        // Setting the icons in the title bar buttons
+        updateIconTheme(theme)
 
         // ###############################
         // ## BASE BEHAVIOR SECTION ######
@@ -124,10 +113,6 @@ class InitController {
             stage.x = event.screenX - windowXOffset
             stage.y = event.screenY - windowYOffset
         }
-
-        // This as a reminder to myself to implement this in the future.
-        menuButton.setOnAction { alertOfNightlyBuild(stage) }
-//        historyButton.setOnAction { alertOfNightlyBuild(stage) }
 
         // ###################################
         // ## BUTTONS LISTENERS SECTION ######
@@ -182,14 +167,18 @@ class InitController {
             }
         }
 
-        // ################################
-        // ## HISTORY BUTTON SECTION ######
-        // ################################
+        // ###########################################
+        // #### HISTORY AND MENU BUTTONS SECTION #####
+        // ###########################################
         historyButton.setOnAction { toggleHistorySidebar(rootContainer) }
+        menuButton.setOnAction { toggleMenuSidebar(rootContainer) }
+
         // The code below is to be able to close the history sidebar in alternative ways, since it does not have any closing button
         rootContainer.addEventFilter(KeyEvent.KEY_PRESSED) { event ->
-            if (event.code == KeyCode.ESCAPE && historySidebar.isVisible) {
-                toggleHistorySidebar(rootContainer)
+            if (event.code == KeyCode.ESCAPE) {
+                if (historySidebar.isVisible) toggleHistorySidebar(rootContainer)
+
+                if (menuSidebar.isVisible) toggleMenuSidebar(rootContainer)
             }
         }
 
@@ -197,12 +186,18 @@ class InitController {
             if (historySidebar.isVisible && !historySidebar.boundsInParent.contains(event.x, event.y)) {
                 toggleHistorySidebar(rootContainer)
             }
+
+            if (menuSidebar.isVisible && !menuSidebar.boundsInParent.contains(event.x, event.y)) {
+                toggleMenuSidebar(rootContainer)
+            }
         }
+
     }
 
     fun lateInitializeSteps() {
+        // ##### HISTORY SIDEBAR SECTION ######
         historySidebar.apply {
-            translateX = rootContainer.width // Start off-screen
+            translateX = rootContainer.width // Start off-screen on the right side of the app
             isVisible = false
             isManaged = false
             prefHeightProperty().bind(rootContainer.heightProperty()) // Bind this sidebar to the height of the parent root
@@ -216,7 +211,18 @@ class InitController {
             }
         }
 
-        rootContainer.children.add(historySidebar) // Add this sidebar for once and all
+        // ##### MENU SIDEBAR SECTION ######
+        menuSidebar.apply {
+            translateX = -prefWidth // Start off-screen on the left side of the app
+            isVisible = false
+            isManaged = false
+            prefHeightProperty().bind(rootContainer.heightProperty())
+
+            onDarkModeToggle = { toggleDarkMode() }
+            onAboutClick = { showAboutPopup() }
+        }
+
+        rootContainer.children.addAll(historySidebar, menuSidebar)
     }
 
     fun setStage(stage: Stage) {
@@ -228,17 +234,18 @@ class InitController {
         inputField.positionCaret(inputField.text.length) // Move the caret to the end of the text.
     }
 
+    // TODO: There is a bug here. The menu is showing up half cutted. I have no idea where the issue is.
     private fun toggleHistorySidebar(rootContainer: StackPane) {
         if (!historySidebar.isVisible) {
             historySidebar.isVisible = true
             historySidebar.isManaged = true
             val slideIn = TranslateTransition(Duration.millis(300.0), historySidebar)
             slideIn.fromX = rootContainer.width
-            slideIn.toX = 100.0
+            slideIn.toX = rootContainer.width * 0.3
             slideIn.play()
         } else {
             val slideOut = TranslateTransition(Duration.millis(300.0), historySidebar)
-            slideOut.fromX = 100.0
+            slideOut.fromX = rootContainer.width * 0.3
             slideOut.toX = rootContainer.width
             slideOut.onFinished = EventHandler {
                 historySidebar.isVisible = false
@@ -249,13 +256,71 @@ class InitController {
         }
     }
 
+    private fun toggleMenuSidebar(rootContainer: StackPane) {
+        if (!menuSidebar.isVisible) {
+            // Close history sidebar if open
+            if (historySidebar.isVisible) {
+                toggleHistorySidebar(rootContainer)
+            }
 
+            menuSidebar.isVisible = true
+            menuSidebar.isManaged = true
+            val slideIn = TranslateTransition(Duration.millis(300.0), menuSidebar)
+            slideIn.fromX = -menuSidebar.prefWidth // Start from left off-screen
+            slideIn.toX = menuSidebar.translateX * 0.7 // Slide in to left edge
+            slideIn.play()
+        } else {
+            val slideOut = TranslateTransition(Duration.millis(300.0), menuSidebar)
+            slideOut.fromX = menuSidebar.translateX * 0.7
+            slideOut.toX = -menuSidebar.prefWidth
+            slideOut.onFinished = EventHandler {
+                menuSidebar.isVisible = false
+                menuSidebar.isManaged = false
+            }
+            slideOut.play()
+            setFocusOnInputField()
+        }
+    }
 
-    private fun alertOfNightlyBuild(stage: Stage) {
-        val alertDialog = Alert(Alert.AlertType.INFORMATION)
-        alertDialog.title = "In construction"
-        alertDialog.headerText = "This function is still not implemented."
-        alertDialog.initOwner(stage)
-        alertDialog.show()
+    private fun toggleDarkMode() {
+        theme = if (theme == "dark") "light" else "dark"
+        val css = javaClass.getResource("/com/korealm/styles/$theme-theme.css")?.toExternalForm()
+
+        listOf(rootContainer, gridPaneNumPad, historySidebar, menuSidebar).forEach {
+            it.stylesheets.clear()
+            it.stylesheets.add(css)
+        }
+
+        updateIconTheme(theme)
+        toggleMenuSidebar(rootContainer) // Close after selection
+    }
+
+    private fun updateIconTheme(theme: String) {
+        val minimizeIcon = Image(javaClass.getResource("icons/minimize_$theme.png")?.toExternalForm(), 24.0, 24.0, true, true)
+        val maximizeIcon = Image(javaClass.getResource("icons/maximize_$theme.png")?.toExternalForm(), 24.0, 24.0, true, true)
+        val closeIcon = Image(javaClass.getResource("icons/close_$theme.png")?.toExternalForm(), 24.0, 24.0, true, true)
+
+        minimizeButton.graphic = ImageView(minimizeIcon)
+        maximizeButton.graphic = ImageView(maximizeIcon)
+        closeButton.graphic = ImageView(closeIcon)
+
+        // Section for setting the icons in the menu and history buttons
+        val menuIcon = Image(javaClass.getResource("icons/menu_$theme.png")?.toExternalForm(), 24.0, 24.0, true, true)
+        val historyIcon = Image(javaClass.getResource("icons/history_$theme.png")?.toExternalForm(), 24.0, 24.0, true, true)
+
+        menuButton.graphic = ImageView(menuIcon)
+        historyButton.graphic = ImageView(historyIcon)
+    }
+
+    private fun showAboutPopup() {
+        // TODO: Later on style this window
+        val alert = Alert(Alert.AlertType.INFORMATION).apply {
+            title = "Aurora Calculator"
+            headerText = "A simple, sleek and modern calculator"
+            contentText = "Created by kosail, in the korealm.\nVersion 1.0 Alpha"
+            initOwner(stage)
+        }
+        alert.show()
+        toggleMenuSidebar(rootContainer) // Close after selection
     }
 }

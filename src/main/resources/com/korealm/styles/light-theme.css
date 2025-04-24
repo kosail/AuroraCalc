@@ -1,0 +1,129 @@
+@font-face {
+    -fx-font-family: "Selawik";
+    -fx-src: url("/com/korealm/fonts/selawk.ttf");
+}
+
+/***************/
+/**** PANES ****/
+/***************/
+.root {
+    -fx-font-family: "Selawik", "Segoe UI";
+}
+
+.vboxPane {
+    -fx-background-color: #F3F3F3;
+}
+
+.mainTitleStyle {
+    -fx-text-fill: #020202;
+}
+
+
+/****************/
+/**** FIELDS ****/
+/****************/
+.text-area {
+    -fx-text-fill: #020202;
+    -fx-background-color: #F3F3F3;
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+.lastOperationLabelStyles {
+    -fx-text-fill: #AAAAAA;
+}
+
+/*****************/
+/**** BUTTONS ****/
+/*****************/
+.button {
+    -fx-text-fill: #171717;
+}
+
+.numberButtonStyle {
+    -fx-background-color: #FFFFFF;
+}
+
+.functionButtonStyle {
+    -fx-background-color: #F9F9F9;
+}
+
+.numberButtonStyle:hover {
+    -fx-background-color: #E8E8E8;
+}
+
+.functionButtonStyle:hover {
+    -fx-background-color: #E4E4E4;
+}
+
+.transparentButton {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.transparentButton:hover {
+    -fx-background-color: #E4E4E4;
+}
+
+
+/*****************/
+/**** SIDEBAR ****/
+/*****************/
+
+/* History Sidebar Styles */
+.historySidebar {
+    -fx-background-color: #E9E9E9;
+}
+
+.historyItem {
+    -fx-font-family: "Selawik", "Segoe UI";
+    -fx-font-size: 25px;
+    -fx-text-fill: #020202;
+    -fx-background-color: rgba(230, 230, 230, 0.45);
+    -fx-text-alignment: right;
+    -fx-padding: 10px 20px;
+}
+
+.historyItem:hover {
+    -fx-background-color: #E0E0E0;
+}
+
+/* Menu Sidebar Styles */
+.menuSidebar {
+    -fx-background-color: #E9E9E9;
+    -fx-padding: 15px;
+}
+
+.menuTitle {
+    -fx-font-family: "Selawik", "Segoe UI";
+    -fx-font-size: 28px;
+    -fx-text-fill: #020202;
+    -fx-padding: 0 0 15px 0;
+}
+
+/* These buttons are ones inside the menu, not the actual button to trigger the menu to show or close up */
+.menuButton {
+    -fx-font-family: "Selawik", "Segoe UI";
+    -fx-font-size: 22px;
+    -fx-text-fill: #020202;
+    -fx-background-color: rgba(230, 230, 230, 0.45);
+    -fx-alignment: center-left;
+    -fx-padding: 10px 15px;
+    -fx-min-width: 100%;
+    -fx-max-width: infinity; /*test*/
+}
+
+.menuButton:hover {
+    -fx-background-color: #E0E0E0;
+    -fx-cursor: hand;
+}
