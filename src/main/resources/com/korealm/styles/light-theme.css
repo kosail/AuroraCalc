@@ -83,6 +83,7 @@
 /* History Sidebar Styles */
 .historySidebar {
     -fx-background-color: #E9E9E9;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 0);
 }
 
 .historyItem {
@@ -102,6 +103,7 @@
 .menuSidebar {
     -fx-background-color: #E9E9E9;
     -fx-padding: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 0);
 }
 
 .menuTitle {
@@ -117,10 +119,11 @@
     -fx-font-size: 22px;
     -fx-text-fill: #020202;
     -fx-background-color: rgba(230, 230, 230, 0.45);
-    -fx-alignment: center-left;
+    -fx-alignment: center-right;
     -fx-padding: 10px 15px;
     -fx-min-width: 100%;
-    -fx-max-width: infinity; /*test*/
+    -fx-max-width: infinity;
+    -fx-background-radius: 3;
 }
 
 .menuButton:hover {

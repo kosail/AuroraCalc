@@ -81,6 +81,7 @@
 /* History Sidebar Styles */
 .historySidebar {
     -fx-background-color: #2C3145;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 0);
 }
 
 .historyItem {
@@ -88,8 +89,10 @@
     -fx-font-size: 25px;
     -fx-text-fill: #f1f1f1;
     -fx-background-color: rgba(50, 54, 74, 0.45);
-    -fx-text-alignment: right;
-    -fx-padding: 10px 20px;
+    -fx-alignment: center-right;
+    -fx-min-width: 100%;
+    -fx-max-width: infinity;
+    -fx-padding: 10px 15px;
 }
 
 .historyItem:hover {
@@ -100,13 +103,14 @@
 .menuSidebar {
     -fx-background-color: #2C3145;
     -fx-padding: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 0);
 }
 
 .menuTitle {
     -fx-font-family: "Selawik", "Segoe UI";
     -fx-font-size: 28px;
     -fx-text-fill: #f1f1f1;
-    -fx-padding: 0 0 15px 0;
+    -fx-padding: 0 15px 15px 15px;
 }
 
 /* These buttons are ones inside the menu, not the actual button to trigger the menu to show or close up */
@@ -115,10 +119,11 @@
     -fx-font-size: 22px;
     -fx-text-fill: #f1f1f1;
     -fx-background-color: rgba(50, 54, 74, 0.45);
-    -fx-alignment: center-left;
+    -fx-alignment: center-right;
     -fx-padding: 10px 15px;
     -fx-min-width: 100%;
-    -fx-max-width: infinity; /*test*/
+    -fx-max-width: infinity; /* Without this, the buttons will not cover their entire parent width space */
+    -fx-background-radius: 3;
 }
 
 .menuButton:hover {
