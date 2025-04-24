@@ -54,15 +54,27 @@ AuroraCalc/
 └── ...
 ```
 
-## 🔧 How to Run
+## 🔧 How to Run / Download
+You can find the executables [here, in releases.](https://github.com/microsoft/Selawik)
 
-1. Clone the repository:
+
+## 🔧 How to Run (Developers)
+
+1. Clone the repository either by downloading it from GitHub or with git by running:
    ```sh
    git clone https://github.com/kosail/AuroraCalc.git
    cd AuroraCalc
    ```
-2. Open the project in **IntelliJ IDEA** (recommended) or another IDE with Kotlin support. Make sure you have installed JavaFX (OpenJFX).
-3. Run the `Main.kt` file to launch the application, if using IntelliJ, or run it with maven from the terminal or your preferred IDE.
+2. Run maven build (you don't need to install maven on your system, as it is bundled in the repo). If you are in Linux just do:
+   ```sh
+   ./mvnw clean package
+   ```
+   Or if you are in windows, it is:
+   ```cmd
+   mvnw.cmd clean package
+   ```
+
+3. It will download JavaFX and all the necessary stuff, then build the jar file and it will be ready to use. Maven will place the executable jar file inside a new folder called target.
 
 ## 📌 Roadmap
 - [X] Finalize UI elements and layout
