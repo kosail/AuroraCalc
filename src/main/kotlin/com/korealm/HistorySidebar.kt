@@ -9,10 +9,6 @@ import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import javafx.scene.input.MouseEvent
 
-/*
-* TODO: Current status of the History Sidebar
-*/
-
 class HistorySidebar : VBox() {
     private val items: ObservableList<String> = FXCollections.observableArrayList()
 
@@ -26,7 +22,7 @@ class HistorySidebar : VBox() {
         prefWidth = 200.0
         isVisible = false
         styleClass.add("historySidebar")
-        stylesheets.add(javaClass.getResource("/com/korealm/styles/sidebar.css")?.toExternalForm())
+        stylesheets.add(javaClass.getResource("/com/korealm/styles/dark-theme.css")?.toExternalForm())
 
         // Configuring the ObservableArrayList
         items.addListener(ListChangeListener { change ->
@@ -60,7 +56,7 @@ class HistorySidebar : VBox() {
 
     private fun extractResultFromHistory(historyText: String): Pair<String,String> {
         return Pair(
-            first = historyText.substringBefore("=".trim()),
+            first = historyText.substringBefore("=").trim(),
             second = historyText.substringAfter("=").trim()
         )
     }
