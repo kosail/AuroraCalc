@@ -12,6 +12,7 @@ import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.layout.HBox
 import javafx.event.EventHandler
+import javafx.geometry.Insets
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.StackPane
@@ -94,6 +95,7 @@ class InitController {
     @FXML fun initialize() {
         // Setting the icons in the title bar buttons
         updateIconTheme(theme)
+        gridPaneNumPad.padding = Insets(0.0,5.0,8.0,5.0) // Adding some padding at the bottom 'cuz for some reason it has none.
 
         // ###############################
         // ## BASE BEHAVIOR SECTION ######
