@@ -24,7 +24,6 @@ class Main : Application() {
         stage.initStyle(StageStyle.UNDECORATED)
 
         stage.scene = scene
-        stage.isResizable = false // Temp fix to the history sidebar acting up when the main window resizes.
         stage.show()
 
         controller.setFocusOnInputField() // Fix that I came with to maintain the focus ALWAYS in the text field, and thus the enter key will always trigger the equals button (to show results)

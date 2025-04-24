@@ -32,7 +32,7 @@ class HistorySidebar : VBox() {
                         val label = Label().apply {
                             text = item
                             styleClass.add("historyItem")
-                            minWidth = 200.0 // This is a known bug. The label does not fill the entire VBox and after burning my eyebrows of frowning, I found out that this field is the problem. It does not work when it has Double.MAX_VALUE, so I decided to make a dirty fix by setting it to a big number. 4096 is the resolution of 4K.
+                            minWidth = 200.0
                             maxWidth = Double.MAX_VALUE
                             prefWidth = this@HistorySidebar.prefWidth
 //                            maxWidthProperty().bind(this@HistorySidebar.maxWidthProperty().subtract(6.0))
